@@ -51,11 +51,9 @@ class History:
                 succee = succee+1
             else:
                 defeated = defeated+1
+            lst.append([data[i][0], data[i - 1][0]])
 
-        if lst:
-            return True
-        else:
-            return False
+        lst.append(succee, defeated)
 
 class Stock:
     def getStockAll(self):
@@ -63,17 +61,14 @@ class Stock:
             lines = [line.strip() for line in f.readlines()]
         return lines
 
-stock = Stock()
-sk = stock.getStockAll()
+#stock = Stock()
+#sk = stock.getStockAll()
+sk = ['002253']
 result = []
 for tk in sk:
     try:
         history = History(tk)
         res = history.handel('2010-10-15', '2018-10-30')
-        if res == True:
-            print tk
-            result.append(tk)
     except:
         continue
-
 print result
