@@ -20,3 +20,6 @@ class Write:
         fo.write(ticker + "\n")
         fo.close()
         return True
+
+write = Write()
+write.getTodayAll()
