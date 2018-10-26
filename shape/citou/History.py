@@ -54,6 +54,7 @@ class History:
             lst.append([data[i][0], data[i - 1][0]])
 
         lst.append(succee, defeated)
+        print lst
 
 class Stock:
     def getStockAll(self):
