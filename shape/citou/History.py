@@ -7,6 +7,9 @@ import pandas as pd
 import redis
 from config.db_config import stock_db
 
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
 class History:
 
     def __init__(self, secName):
