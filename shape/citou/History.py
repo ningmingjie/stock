@@ -9,7 +9,7 @@ from config.db_config import stock_db
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
-
+sys.path.append('../../config/db_config.py')
 class History:
 
     def __init__(self, secName):
