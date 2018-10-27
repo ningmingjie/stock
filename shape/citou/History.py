@@ -4,11 +4,12 @@ import tushare as ts
 import numpy as np
 import pandas as pd
 import redis
+from config.db_config import stock_db
 
 class History:
 
-    def __init__(self, ticker):
-        self.ticker = ticker
+    def __init__(self, secName):
+        self.secName = secName
 
     """
     获取历史行情数据
@@ -16,7 +17,7 @@ class History:
     endDay ：结束时间
     """
     def getHistData(self, startDay = '2001-12-10', endDay = '2018-10-30'):
-        data = ts.get_hist_data(self.ticker, startDay, endDay)
+        data = ts.get_hist_data(self.secName, startDay, endDay)
         data.reset_index(inplace=True)
         #索引重新命名
         data.rename(
@@ -31,7 +32,7 @@ class History:
     startDay ：开始时间
     endDay ：结束时间
     """
-    def handel(self, startDay, endDay):
+    def handel(self, startDay, endDay, period):
         data = self.getHistData(startDay, endDay)
         dataLen = len(data)
         lst = []
@@ -47,14 +48,33 @@ class History:
             average = (data[i]['open']+data[i]['close'])/2
             if data[i-1]['close'] < average:
                 continue
-            if data[i]['open'] > data[i-1]['close']:
+            if data[i-1]['close'] > data[i-2]['open']:
+                is_succee = 20
                 succee = succee+1
             else:
                 defeated = defeated+1
-            lst.append([data[i][0], data[i - 1][0]])
+                is_succee = 10
+            lst.append([data[i][0], data[i-1][0]])
 
-        lst.append(succee, defeated)
-        print lst
+            highIncome = 0
+            highPrice = 0
+            highPosition = 0
+            for j in range(2, period+1):
+                income = (data[i-j]['hight'] - data[i-1]['close'])/data[i-1]['close']
+                if income > highIncome:
+                    highIncome = income
+                    highPrice = data[i-j]['hight']
+                    highPosition = j-1
+            totalIncome = (data[period+1]['close'] - data[i-1]['close'])/data[i-1]['close']
+            totalPositio = period
+            totalPrice = data[period+1]['close']
+            winRate = succee/(succee+defeated)
+            sql = """INSERT INTO shape (shape_key, sec_code, sec_name, is_succee, high_income, \
+high_price, total_income, total_price, best_position, total_position, win_rate, stage, created_at, updated_at) VALUES ('%s', \
+'%s', '%s', '%d', '%f', '%f', '%f', '%f', '%d', '%d', '%f', '%d',  '%d', '%d')""" % ('CITU', self.secName, '川大智胜', \
+is_succee, highIncome, highPrice, totalIncome, totalPrice, highPosition, totalPositio, winRate, 300, 1540649495, 1540649495)
+            stock_db.insertData(sql)
+
 
 class Stock:
     def getStockAll(self):
