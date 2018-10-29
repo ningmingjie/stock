@@ -40,7 +40,6 @@ class History:
     """
     def handel(self, startDay, endDay, period):
         data = self.getHistData(startDay, endDay)
-        print data
         dataLen = len(data)
         lst = []
         succee = 0
@@ -61,7 +60,7 @@ class History:
             else:
                 defeated = defeated+1
                 is_succee = 10
-            lst.append([data[i][0], data[i-1][0]])
+            #lst.append([data[i][0], data[i-1][0]])
 
             highIncome = 0
             highPrice = 0
