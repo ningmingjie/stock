@@ -42,6 +42,7 @@ class DB(object):
                 #cursorclass=MySQLdb.cursors.DictCursor,
                 charset=self._dbcharset
             )
+            print conn
         except Exception, data:
             conn = False
         return conn
