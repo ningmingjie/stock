@@ -97,7 +97,7 @@ result = []
 for tk in sk:
     try:
         history = History(tk)
-        res = history.handel('2010-10-15', '2018-10-30')
+        res = history.handel('2010-10-15', '2018-10-30', 10)
     except:
         continue
 print result
