@@ -3,8 +3,8 @@
 
 import MySQLdb
 import MySQLdb.cursors
-import mod_config
-import mod_logger
+#import mod_config
+#import mod_logger
 
 #LOGPATH = mod_config.getConfig('path', 'logpath') + 'database.log'
 #logger = mod_logger.logger(LOGPATH)
