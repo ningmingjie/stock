@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 import sys
+sys.path.append('..')
 import tushare as ts
 import numpy as np
 import pandas as pd
@@ -9,7 +10,7 @@ from config.db_config import stock_db
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
-sys.path.append('../../config/db_config.py')
+
 class History:
 
     def __init__(self, secName):
