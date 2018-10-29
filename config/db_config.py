@@ -74,6 +74,7 @@ class DB(object):
     # 新增记录
     def insertData(self, sql):
         res = True
+        print self._conn
         if (self._conn):
             try:
                 self._cursor.execute(sql)
