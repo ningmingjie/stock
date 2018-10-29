@@ -13,9 +13,9 @@ sys.setdefaultencoding('utf-8')
 
 class History:
 
-    def __init__(self, secCode, secName):
+    def __init__(self, secCode):
         self.secCode = secCode
-        self.secName = secName
+        #self.secName = secName
 
     """
     获取历史行情数据
@@ -79,7 +79,7 @@ class History:
             print data[i-1]['date']
             sql = """INSERT INTO shape (shape_key, sec_code, sec_name, is_succee, high_income, \
 high_price, total_income, total_price, best_position, total_position, win_rate, stage, created_at, updated_at) VALUES ('%s', \
-'%s', '%s', '%d', '%f', '%f', '%f', '%f', '%d', '%d', '%f', '%d',  '%d', '%d')""" % ('CITU', self.secCode, self.secName, \
+'%s', '%s', '%d', '%f', '%f', '%f', '%f', '%d', '%d', '%f', '%d',  '%d', '%d')""" % ('CITU', self.secCode, '川大智胜', \
 is_succee, highIncome, highPrice, totalIncome, totalPrice, highPosition, totalPositio, winRate, 300, 1540649495, 1540649495)
             stock_db.insertData(sql)
 
@@ -96,8 +96,7 @@ sk = ['002253']
 result = []
 for tk in sk:
     try:
-        print tk
-        history = History(tk, '川大智胜')
+        history = History(tk)
         res = history.handel('2010-10-15', '2018-10-30')
     except:
         continue
