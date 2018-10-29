@@ -66,7 +66,6 @@ class History:
             highPrice = 0
             highPosition = 0
             for j in range(2, period+1):
-                print data[i-j]['date']
                 income = (data[i-j]['high'] - data[i-1]['close'])/data[i-1]['close']
                 if income > highIncome:
                     highIncome = income
@@ -81,7 +80,7 @@ class History:
 high_price, total_income, total_price, best_position, total_position, win_rate, stage, created_at, updated_at) VALUES ('%s', \
 '%s', '%s', '%d', '%f', '%f', '%f', '%f', '%d', '%d', '%f', '%d',  '%d', '%d')""" % ('CITU', self.secCode, '川大智胜', \
 is_succee, highIncome, highPrice, totalIncome, totalPrice, highPosition, totalPositio, winRate, 300, 1540649495, 1540649495)
-            stock_db.insertData(sql)
+            print stock_db.insertData(sql)
 
 
 class Stock:
