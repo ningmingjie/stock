@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 import sys
-sys.path.append('../..')
+sys.path.append('../../')
 import tushare as ts
 import numpy as np
 import pandas as pd
