@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 import sys
-sys.path.append('../../')
+sys.path.append('/data/www/stock/')
 import tushare as ts
 import numpy as np
 import pandas as pd
@@ -13,7 +13,8 @@ sys.setdefaultencoding('utf-8')
 
 class History:
 
-    def __init__(self, secName):
+    def __init__(self, secCode, secName):
+        self.secCode = secCode
         self.secName = secName
 
     """
@@ -22,7 +23,7 @@ class History:
     endDay ：结束时间
     """
     def getHistData(self, startDay = '2001-12-10', endDay = '2018-10-30'):
-        data = ts.get_hist_data(self.secName, startDay, endDay)
+        data = ts.get_hist_data(self.secCode, startDay, endDay)
         data.reset_index(inplace=True)
         #索引重新命名
         data.rename(
@@ -76,7 +77,7 @@ class History:
             winRate = succee/(succee+defeated)
             sql = """INSERT INTO shape (shape_key, sec_code, sec_name, is_succee, high_income, \
 high_price, total_income, total_price, best_position, total_position, win_rate, stage, created_at, updated_at) VALUES ('%s', \
-'%s', '%s', '%d', '%f', '%f', '%f', '%f', '%d', '%d', '%f', '%d',  '%d', '%d')""" % ('CITU', self.secName, '川大智胜', \
+'%s', '%s', '%d', '%f', '%f', '%f', '%f', '%d', '%d', '%f', '%d',  '%d', '%d')""" % ('CITU', self.secCode, self.secName, \
 is_succee, highIncome, highPrice, totalIncome, totalPrice, highPosition, totalPositio, winRate, 300, 1540649495, 1540649495)
             stock_db.insertData(sql)
 
@@ -93,7 +94,7 @@ sk = ['002253']
 result = []
 for tk in sk:
     try:
-        history = History(tk)
+        history = History(tk, '川大智胜')
         res = history.handel('2010-10-15', '2018-10-30')
     except:
         continue
