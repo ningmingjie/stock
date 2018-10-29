@@ -40,7 +40,6 @@ class History:
     """
     def handel(self, startDay, endDay, period):
         data = self.getHistData(startDay, endDay)
-        print data
         dataLen = len(data)
         lst = []
         succee = 0
@@ -81,6 +80,7 @@ class History:
 high_price, total_income, total_price, best_position, total_position, win_rate, stage, created_at, updated_at) VALUES ('%s', \
 '%s', '%s', '%d', '%f', '%f', '%f', '%f', '%d', '%d', '%f', '%d',  '%d', '%d')""" % ('CITU', self.secCode, '川大智胜', \
 is_succee, highIncome, highPrice, totalIncome, totalPrice, highPosition, totalPositio, winRate, 300, 1540649495, 1540649495)
+            print sql
             stock_db.insertData(sql)
 
 
@@ -97,7 +97,7 @@ result = []
 for tk in sk:
     try:
         history = History(tk)
-        res = history.handel('2018-09-10', '2018-10-30', 10)
+        res = history.handel('2008-09-10', '2018-10-30', 10)
     except:
         continue
 print result
