@@ -25,7 +25,6 @@ class History:
     def getHistData(self, startDay = '2001-12-10', endDay = '2018-10-30'):
         data = ts.get_hist_data(self.secCode, startDay, endDay)
         data.reset_index(inplace=True)
-        print data
         #索引重新命名
         data.rename(
             columns={'date': 'date', 'open': 'open', 'high': 'high', 'close': 'close', 'low': 'low', 'volume': 'volume',
@@ -97,6 +96,7 @@ sk = ['002253']
 result = []
 for tk in sk:
     try:
+        print tk
         history = History(tk, '川大智胜')
         res = history.handel('2010-10-15', '2018-10-30')
     except:
