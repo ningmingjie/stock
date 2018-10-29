@@ -92,7 +92,7 @@ class DB(object):
                 return False
 
 stock_db = DB(
-    host="39.98.34.223",
+    host="172.26.202.108",
     port=3306,
     db="stock",
     user="root",
