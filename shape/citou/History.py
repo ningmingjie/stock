@@ -96,6 +96,7 @@ result = []
 for tk in sk:
     try:
         history = History(tk, '川大智胜')
+        print history
         res = history.handel('2010-10-15', '2018-10-30')
     except:
         continue
