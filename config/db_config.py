@@ -91,7 +91,7 @@ class DB(object):
                 if (type(self._conn) == 'object'):
                     self._conn.close()
             except Exception, data:
-                #self._logger.warn("close database exception, %s,%s,%s" % (data, type(self._cursor), type(self._conn)))
+                return False
 
 stock_db = DB(
     host="39.98.34.223",
