@@ -75,6 +75,7 @@ class History:
             totalPositio = period
             totalPrice = data[period+1]['close']
             winRate = succee/(succee+defeated)
+            print data[i-1]['date']
             sql = """INSERT INTO shape (shape_key, sec_code, sec_name, is_succee, high_income, \
 high_price, total_income, total_price, best_position, total_position, win_rate, stage, created_at, updated_at) VALUES ('%s', \
 '%s', '%s', '%d', '%f', '%f', '%f', '%f', '%d', '%d', '%f', '%d',  '%d', '%d')""" % ('CITU', self.secCode, self.secName, \
