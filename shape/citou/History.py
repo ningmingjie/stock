@@ -40,6 +40,7 @@ class History:
     """
     def handel(self, startDay, endDay, period):
         data = self.getHistData(startDay, endDay)
+        print data
         dataLen = len(data)
         lst = []
         succee = 0
@@ -96,7 +97,6 @@ result = []
 for tk in sk:
     try:
         history = History(tk, '川大智胜')
-        print history
         res = history.handel('2010-10-15', '2018-10-30')
     except:
         continue
