@@ -23,6 +23,8 @@ class DB(object):
 
         self._conn = self.connectMySQL()
 
+
+
         if (self._conn):
             self._cursor = self._conn.cursor()
 
@@ -37,11 +39,10 @@ class DB(object):
                 passwd=self._dbpassword,
                 db=self._dbname,
                 port=self._dbport,
-                cursorclass=MySQLdb.cursors.DictCursor,
+                #cursorclass=MySQLdb.cursors.DictCursor,
                 charset=self._dbcharset
             )
         except Exception, data:
-            #self._logger.error("connect database failed, %s" % data)
             conn = False
         return conn
 
@@ -74,7 +75,7 @@ class DB(object):
     # 新增记录
     def insertData(self, sql):
         res = True
-        print self._conn
+        #print self._conn
         if (self._conn):
             try:
                 self._cursor.execute(sql)
