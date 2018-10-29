@@ -46,7 +46,7 @@ class History:
         defeated = 0
         for i in range(dataLen-1, -1, -1):
             print data[i]['date']
-            if data[i]['close'] < data[i]['open']:
+            if data[i]['close'] > data[i]['open']:
                 continue
             if data[i]['low'] < data[i-1]['open']:
                 continue
@@ -55,6 +55,7 @@ class History:
             average = (data[i]['open']+data[i]['close'])/2
             if data[i-1]['close'] < average:
                 continue
+            print data[i-1]['date']
             if data[i-1]['close'] > data[i-2]['open']:
                 is_succee = 20
                 succee = succee+1
