@@ -31,20 +31,15 @@ class DB(object):
 
     # 数据库连接
     def connectMySQL(self):
-        conn = False
-        try:
-            conn = MySQLdb.connect(
-                host=self._dbhost,
-                user=self._dbuser,
-                passwd=self._dbpassword,
-                db=self._dbname,
-                port=self._dbport,
-                #cursorclass=MySQLdb.cursors.DictCursor,
-                charset=self._dbcharset
-            )
-            print conn
-        except Exception, data:
-            conn = False
+        conn = MySQLdb.connect(
+            host=self._dbhost,
+            user=self._dbuser,
+            passwd=self._dbpassword,
+            db=self._dbname,
+            port=self._dbport,
+            # cursorclass=MySQLdb.cursors.DictCursor,
+            charset=self._dbcharset
+        )
         return conn
 
     # 获取查询结果集
