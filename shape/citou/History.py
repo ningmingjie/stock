@@ -45,7 +45,7 @@ class History:
         succee = 0
         defeated = 0
         for i in range(dataLen-1, -1, -1):
-            if data[i]['close'] > data[i]['open']:
+            if data[i]['close'] < data[i]['open']:
                 continue
             if data[i]['low'] < data[i-1]['open']:
                 continue
