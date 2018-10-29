@@ -41,7 +41,7 @@ class DB(object):
                 charset=self._dbcharset
             )
         except Exception, data:
-            self._logger.error("connect database failed, %s" % data)
+            #self._logger.error("connect database failed, %s" % data)
             conn = False
         return conn
 
@@ -54,7 +54,7 @@ class DB(object):
                 res = self._cursor.fetchall()
             except Exception, data:
                 res = False
-                self._logger.warn("query database exception, %s" % data)
+                #self._logger.warn("query database exception, %s" % data)
         return res
     # 更新数据
     def update(self, sql):
@@ -66,7 +66,7 @@ class DB(object):
                 flag = True
             except Exception, data:
                 flag = False
-                self._logger.warn("update database exception, %s" % data)
+                #self._logger.warn("update database exception, %s" % data)
 
         return flag
 
@@ -79,7 +79,7 @@ class DB(object):
                 self._cursor.execute(sql)
             except Exception, data:
                 res = False
-                self._logger.warn("insert database exception, %s" % data)
+                #self._logger.warn("insert database exception, %s" % data)
         return res
 
     # 关闭数据库连接
@@ -91,7 +91,7 @@ class DB(object):
                 if (type(self._conn) == 'object'):
                     self._conn.close()
             except Exception, data:
-                self._logger.warn("close database exception, %s,%s,%s" % (data, type(self._cursor), type(self._conn)))
+                #self._logger.warn("close database exception, %s,%s,%s" % (data, type(self._cursor), type(self._conn)))
 
 stock_db = DB(
     host="39.98.34.223",
