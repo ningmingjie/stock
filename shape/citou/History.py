@@ -67,10 +67,10 @@ class History:
             highPosition = 0
             for j in range(2, period+1):
                 print data[i-j]['date']
-                income = (data[i-j]['hight'] - data[i-1]['close'])/data[i-1]['close']
+                income = (data[i-j]['high'] - data[i-1]['close'])/data[i-1]['close']
                 if income > highIncome:
                     highIncome = income
-                    highPrice = data[i-j]['hight']
+                    highPrice = data[i-j]['high']
                     highPosition = j-1
             totalIncome = (data[period+1]['close'] - data[i-1]['close'])/data[i-1]['close']
             totalPositio = period
