@@ -25,6 +25,7 @@ class History:
     def getHistData(self, startDay = '2001-12-10', endDay = '2018-10-30'):
         data = ts.get_hist_data(self.secCode, startDay, endDay)
         data.reset_index(inplace=True)
+        print data
         #索引重新命名
         data.rename(
             columns={'date': 'date', 'open': 'open', 'high': 'high', 'close': 'close', 'low': 'low', 'volume': 'volume',
