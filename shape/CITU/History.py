@@ -95,9 +95,9 @@ class Stock:
             lines = [line.strip() for line in f.readlines()]
         return lines
 
-#stock = Stock()
-#sk = stock.getStockAll()
-sk = ["002253-川大智胜"]
+stock = Stock()
+sk = stock.getStockAll()
+#sk = ["002253-川大智胜"]
 for tk in sk:
     try:
         sec = tk.partition("-")
