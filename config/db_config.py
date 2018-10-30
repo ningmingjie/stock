@@ -94,7 +94,7 @@ class DB(object):
 stock_db = DB(
     host="172.26.202.108",
     port=3306,
-    db="stock",
+    db="ceshi",
     user="root",
     passwd="loudou123+",
     charset="utf-8"
