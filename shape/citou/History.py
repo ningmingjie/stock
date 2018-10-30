@@ -6,6 +6,7 @@ import tushare as ts
 import numpy as np
 import pandas as pd
 import redis
+import time
 from config.db_config import stock_db
 
 reload(sys)
@@ -79,14 +80,14 @@ class History:
             totalIncome = (data[i-(periods)]['close'] - data[i-1]['close'])/data[i-1]['close']
             totalPositio = period
             totalPrice = data[i-(periods)]['close']
-            winRate = succee/float((succee+defeated))
+            winRate = succee-(succee+defeated)/float((succee+defeated))
 
             sql = """INSERT INTO shape (shape_key, sec_code, sec_name, is_succee, appear_date, cast_date, high_income, \
 high_price, total_income, total_price, best_position, total_position, win_rate, stage, created_at, updated_at) VALUES ('%s', \
 '%s', '%s', '%d', '%s', '%s', '%f', '%f', '%f', '%f', '%d', '%d', '%f', '%d',  '%d', '%d')""" % ('CITU', self.secCode, self.secName, \
-is_succee, appearDate, castDate, highIncome, highPrice, totalIncome, totalPrice, highPosition, totalPositio, winRate, 300, 1540649495, 1540649495)
+is_succee, appearDate, castDate, highIncome, highPrice, totalIncome, totalPrice, highPosition, totalPositio, winRate, 300, int(time.time()), int(time.time()))
             stock_db.insertData(sql)
-            return True
+        return True
 
 class Stock:
     def getStockAll(self):
