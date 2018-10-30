@@ -12,7 +12,7 @@ from config.db_config import stock_db
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-class History:
+class Present:
 
     def __init__(self, secCode, secName):
         self.secCode = secCode
@@ -62,30 +62,30 @@ class History:
                 defeated = defeated+1
                 is_succee = 10
 
-            morrowIncome = (data[i-2]['close']-data[i-1]['close'])/data[i-1]['close']
-            morrowPrice = data[i-2]['close']
             appearDate = data[i-1]['date']
             castDate = data[i-1]['date']
             highIncome = 0
             highPrice = 0
             highPosition = 0
-
-            for j in range(2, period+2):
+            periods = period+1
+            if is_succee == 10:
+                periods = 2
+            for j in range(2, periods+1):
                 income = (data[i-j]['high'] - data[i-1]['close'])/data[i-1]['close']
                 if income > highIncome:
                     castDate = data[i-j]['date']
                     highIncome = income
                     highPrice = data[i-j]['high']
                     highPosition = j-1
-            totalIncome = (data[i-(period+1)]['close'] - data[i-1]['close'])/data[i-1]['close']
+            totalIncome = (data[i-(periods)]['close'] - data[i-1]['close'])/data[i-1]['close']
             totalPositio = period
-            totalPrice = data[i-(period+1)]['close']
+            totalPrice = data[i-(periods)]['close']
             winRate = succee/float((succee+defeated))
 
-            sql = """INSERT INTO shape (shape_key, sec_code, sec_name, is_succee, appear_date, cast_date, morrow_income, morrow_price, high_income, \
+            sql = """INSERT INTO shape (shape_key, sec_code, sec_name, is_succee, appear_date, cast_date, high_income, \
 high_price, total_income, total_price, best_position, total_position, win_rate, stage, created_at, updated_at) VALUES ('%s', \
-'%s', '%s', '%d', '%s', '%s', '%f', '%f', '%f', '%f', '%f', '%f', '%d', '%d', '%f', '%d',  '%d', '%d')""" % ('CITU', self.secCode, self.secName, \
-is_succee, appearDate, castDate, morrowIncome, morrowPrice, highIncome, highPrice, totalIncome, totalPrice, highPosition, totalPositio, winRate, 300, int(time.time()), int(time.time()))
+'%s', '%s', '%d', '%s', '%s', '%f', '%f', '%f', '%f', '%d', '%d', '%f', '%d',  '%d', '%d')""" % ('CITU', self.secCode, self.secName, \
+is_succee, appearDate, castDate, highIncome, highPrice, totalIncome, totalPrice, highPosition, totalPositio, winRate, 300, int(time.time()), int(time.time()))
             stock_db.insertData(sql)
         return True
 
@@ -95,9 +95,9 @@ class Stock:
             lines = [line.strip() for line in f.readlines()]
         return lines
 
-#stock = Stock()
-#sk = stock.getStockAll()
-sk = ["002253-川大智胜"]
+stock = Stock()
+sk = stock.getStockAll()
+
 for tk in sk:
     try:
         sec = tk.partition("-")
