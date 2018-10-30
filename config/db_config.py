@@ -33,13 +33,13 @@ class DB(object):
     def connectMySQL(self):
         conn = MySQLdb.connect(
             host=self._dbhost,
+            db=self._dbname,
             user=self._dbuser,
             passwd=self._dbpassword,
-            db=self._dbname,
             port=self._dbport,
-            # cursorclass=MySQLdb.cursors.DictCursor,
             charset=self._dbcharset
         )
+
         return conn
 
     # 获取查询结果集
@@ -96,6 +96,6 @@ stock_db = DB(
     port=3306,
     db="stock",
     user="stock",
-    passwd="loudou123+",
+    passwd="loudou123~",
     charset="utf-8"
 )
