@@ -62,12 +62,15 @@ class History:
                 is_succee = 10
             #lst.append([data[i][0], data[i-1][0]])
 
+            appearDate = data[i-1]['date']
+            castDate = data[i-1]['date']
             highIncome = 0
             highPrice = 0
             highPosition = 0
             for j in range(2, period+1):
                 income = (data[i-j]['high'] - data[i-1]['close'])/data[i-1]['close']
                 if income > highIncome:
+                    castDate = data[i-j]['date']
                     highIncome = income
                     highPrice = data[i-j]['high']
                     highPosition = j-1
@@ -76,10 +79,10 @@ class History:
             totalPrice = data[i-(period+1)]['close']
             winRate = succee/(succee+defeated)
 
-            sql = """INSERT INTO shape (shape_key, sec_code, sec_name, is_succee, high_income, \
+            sql = """INSERT INTO shape (shape_key, sec_code, sec_name, is_succee, appear_date, cast_date, high_income, \
 high_price, total_income, total_price, best_position, total_position, win_rate, stage, created_at, updated_at) VALUES ('%s', \
-'%s', '%s', '%d', '%f', '%f', '%f', '%f', '%d', '%d', '%f', '%d',  '%d', '%d')""" % ('CITU', self.secCode, self.secName, \
-is_succee, highIncome, highPrice, totalIncome, totalPrice, highPosition, totalPositio, winRate, 300, 1540649495, 1540649495)
+'%s', '%s', '%d', '%s', '%s', '%f', '%f', '%f', '%f', '%d', '%d', '%f', '%d',  '%d', '%d')""" % ('CITU', self.secCode, self.secName, \
+is_succee, appearDate, castDate, highIncome, highPrice, totalIncome, totalPrice, highPosition, totalPositio, winRate, 300, 1540649495, 1540649495)
             stock_db.insertData(sql)
 
 
