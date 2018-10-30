@@ -97,5 +97,5 @@ stock_db = DB(
     db="stock",
     user="stock",
     passwd="loudou123~",
-    charset="utf-8"
+    charset="utf8"
 )
