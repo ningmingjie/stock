@@ -3,6 +3,11 @@
 import tushare as ts
 import numpy as np
 import pandas as pd
+import sys
+
+
+reload(sys)
+sys.setdefaultencoding("utf-8")
 
 class Write:
 
