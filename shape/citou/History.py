@@ -69,7 +69,7 @@ class History:
             periods = period+1
             if is_succee == 10:
                 periods = 2
-            for j in range(2, periods):
+            for j in range(2, periods+1):
                 income = (data[i-j]['high'] - data[i-1]['close'])/data[i-1]['close']
                 if income > highIncome:
                     castDate = data[i-j]['date']
