@@ -74,9 +74,9 @@ class DB(object):
         if (self._conn):
             try:
                 self._cursor.execute(sql)
-                self._cursor.commit()
+                self._conn.commit()
             except Exception, data:
-                self._cursor.rollback()
+                self._conn.rollback()
                 res = False
                 #self._logger.warn("insert database exception, %s" % data)
         return res
