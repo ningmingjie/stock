@@ -80,7 +80,7 @@ class History:
             totalIncome = (data[i-(periods)]['close'] - data[i-1]['close'])/data[i-1]['close']
             totalPositio = period
             totalPrice = data[i-(periods)]['close']
-            winRate = succee-(succee+defeated)/float((succee+defeated))
+            winRate = succee/float((succee+defeated))
 
             sql = """INSERT INTO shape (shape_key, sec_code, sec_name, is_succee, appear_date, cast_date, high_income, \
 high_price, total_income, total_price, best_position, total_position, win_rate, stage, created_at, updated_at) VALUES ('%s', \
