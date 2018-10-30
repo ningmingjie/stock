@@ -54,30 +54,32 @@ class History:
             average = (data[i]['open']+data[i]['close'])/2
             if data[i-1]['close'] < average:
                 continue
-            if data[i-1]['close'] > data[i-2]['open']:
+            if data[i-1]['close'] < data[i-2]['close']:
                 is_succee = 20
                 succee = succee+1
             else:
                 defeated = defeated+1
                 is_succee = 10
-            #lst.append([data[i][0], data[i-1][0]])
 
             appearDate = data[i-1]['date']
             castDate = data[i-1]['date']
             highIncome = 0
             highPrice = 0
             highPosition = 0
-            for j in range(2, period+1):
+            periods = period+1
+            if is_succee == 10:
+                periods = 2
+            for j in range(2, periods):
                 income = (data[i-j]['high'] - data[i-1]['close'])/data[i-1]['close']
                 if income > highIncome:
                     castDate = data[i-j]['date']
                     highIncome = income
                     highPrice = data[i-j]['high']
                     highPosition = j-1
-            totalIncome = (data[i-(period+1)]['close'] - data[i-1]['close'])/data[i-1]['close']
+            totalIncome = (data[i-(periods)]['close'] - data[i-1]['close'])/data[i-1]['close']
             totalPositio = period
-            totalPrice = data[i-(period+1)]['close']
-            winRate = succee/(succee+defeated)
+            totalPrice = data[i-(periods)]['close']
+            winRate = succee-(succee+defeated)/float((succee+defeated))
 
             sql = """INSERT INTO shape (shape_key, sec_code, sec_name, is_succee, appear_date, cast_date, high_income, \
 high_price, total_income, total_price, best_position, total_position, win_rate, stage, created_at, updated_at) VALUES ('%s', \
