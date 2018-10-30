@@ -72,7 +72,13 @@ class DB(object):
     def insertData(self, sql):
         res = True
         if (self._conn):
-            self._cursor.execute(sql)
+            try:
+                self._cursor.execute(sql)
+                self._cursor.commit()
+            except Exception, data:
+                self._cursor.rollback()
+                res = False
+                #self._logger.warn("insert database exception, %s" % data)
         return res
 
     # 关闭数据库连接
