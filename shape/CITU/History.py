@@ -46,6 +46,7 @@ class History:
         succee = 0
         defeated = 0
         for i in range(dataLen-1, -1, -1):
+            print i+"-"+data[i]['date']
             if data[i]['close'] > data[i]['open']:
                 continue
             if data[i]['low'] < data[i-1]['open']:
@@ -77,7 +78,7 @@ class History:
             stage = 300
             if (i-period)<0:
                 stage = 200
-            print i
+
             if i!=0:
                 for j in range(2, period + 2):
                     income = (data[i - j]['high'] - data[i - 1]['close']) / data[i - 1]['close']
