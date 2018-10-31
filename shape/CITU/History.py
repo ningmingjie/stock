@@ -69,24 +69,38 @@ class History:
             highIncome = 0
             highPrice = 0
             highPosition = 0
-
-            for j in range(2, period+2):
-                income = (data[i-j]['high'] - data[i-1]['close'])/data[i-1]['close']
-                if income > highIncome:
-                    castDate = data[i-j]['date']
-                    highIncome = income
-                    highPrice = data[i-j]['high']
-                    highPosition = j-1
-            totalIncome = (data[i-(period+1)]['close'] - data[i-1]['close'])/data[i-1]['close']
+            winRate = 0
             totalPositio = period
-            totalPrice = data[i-(period+1)]['close']
-            winRate = succee/float((succee+defeated))
+            totalIncome = 0
+            totalPrice = 0
+
+            stage = 300
+            if (i-period)<0:
+                stage = 200
+            if i!=0:
+                for j in range(2, period + 2):
+                    income = (data[i - j]['high'] - data[i - 1]['close']) / data[i - 1]['close']
+                    if income > highIncome:
+                        castDate = data[i - j]['date']
+                        highIncome = income
+                        highPrice = data[i - j]['high']
+                        highPosition = j - 1
+
+                totalIncome = (data[i - (period + 1)]['close'] - data[i - 1]['close']) / data[i - 1]['close']
+                totalPrice = data[i - (period + 1)]['close']
+                winRate = succee / float((succee + defeated))
 
             sql = """INSERT INTO shape (shape_key, sec_code, sec_name, is_succee, appear_date, cast_date, morrow_income, morrow_price, high_income, \
 high_price, total_income, total_price, best_position, total_position, win_rate, stage, created_at, updated_at) VALUES ('%s', \
 '%s', '%s', '%d', '%s', '%s', '%f', '%f', '%f', '%f', '%f', '%f', '%d', '%d', '%f', '%d',  '%d', '%d')""" % ('CITU', self.secCode, self.secName, \
-is_succee, appearDate, castDate, morrowIncome, morrowPrice, highIncome, highPrice, totalIncome, totalPrice, highPosition, totalPositio, winRate, 300, int(time.time()), int(time.time()))
-            stock_db.insertData(sql)
+is_succee, appearDate, castDate, morrowIncome, morrowPrice, highIncome, highPrice, totalIncome, totalPrice, highPosition, totalPositio, winRate, stage, int(time.time()), int(time.time()))
+            id = stock_db.insertData(sql)
+            if id > 0:
+                for k in range(0, 2):
+                    shapeDetail = """INSERT INTO shape_detail (shape_id, shape_date, shape_price, shape_income, created_at, updated_at) VALUES ('%d', '%s','%f', '%f', '%d', '%d')""" % ( \
+                        id, data[i+k]['date'], data[i+k]['price'], data[i+k]['p_change'], int(time.time()),
+                        int(time.time()))
+                    stock_db.insertData(shapeDetail)
         return True
 
 class Stock:
@@ -95,9 +109,9 @@ class Stock:
             lines = [line.strip() for line in f.readlines()]
         return lines
 
-stock = Stock()
-sk = stock.getStockAll()
-#sk = ["002253-川大智胜"]
+#stock = Stock()
+#sk = stock.getStockAll()
+sk = ["601518-吉林高速"]
 for tk in sk:
     try:
         sec = tk.partition("-")

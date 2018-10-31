@@ -70,16 +70,16 @@ class DB(object):
     # 删除记录
     # 新增记录
     def insertData(self, sql):
-        res = True
+        id = 0
         if (self._conn):
             try:
                 self._cursor.execute(sql)
                 self._conn.commit()
+                id = int(self._conn.insert_id())
             except Exception, data:
                 self._conn.rollback()
-                res = False
                 #self._logger.warn("insert database exception, %s" % data)
-        return res
+        return id
 
     # 关闭数据库连接
     def close(self):
