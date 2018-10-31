@@ -46,7 +46,7 @@ class History:
         succee = 0
         defeated = 0
         for i in range(dataLen-1, -1, -1):
-            print i
+            print "%d%s%s"%(i,"-", data[i]['date'])
             if data[i]['close'] > data[i]['open']:
                 continue
             if data[i]['low'] < data[i-1]['open']:
@@ -96,7 +96,8 @@ class History:
 high_price, total_income, total_price, best_position, total_position, win_rate, stage, created_at, updated_at) VALUES ('%s', \
 '%s', '%s', '%d', '%s', '%s', '%f', '%f', '%f', '%f', '%f', '%f', '%d', '%d', '%f', '%d',  '%d', '%d')""" % ('CITU', self.secCode, self.secName, \
 is_succee, appearDate, castDate, morrowIncome, morrowPrice, highIncome, highPrice, totalIncome, totalPrice, highPosition, totalPositio, winRate, stage, int(time.time()), int(time.time()))
-            id = stock_db.insertData(sql)
+            stock_db.insertData(sql)
+            id = stock_db.getLastId()
             print id
             if id > 0:
                 for k in range(0, 2):

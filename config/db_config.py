@@ -81,6 +81,11 @@ class DB(object):
                 #self._logger.warn("insert database exception, %s" % data)
         return id
 
+    def getLastId(self):
+        self._cursor.execute("select last_insert_id();")
+        data = self._cursor.fetchall();
+        return data[0][0]
+
     # 关闭数据库连接
     def close(self):
         if (self._conn):
