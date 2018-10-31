@@ -25,7 +25,7 @@ class Stock:
         data.reset_index(inplace=True)
         print data.to_dict('records')
 
-        sk = ts.get_hist_data('000713', '2018-10-30', '2018-10-31')
+        sk = ts.get_hist_data('000713', '2018-10-23', '2018-10-31')
         sk.reset_index(inplace=True)
         print sk.to_dict('records')
 
