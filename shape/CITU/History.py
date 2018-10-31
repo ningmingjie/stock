@@ -79,7 +79,7 @@ class History:
                 stage = 200
                 periods = i
 
-            if i>0:
+            if i<dataLen-1:
                 for j in range(2, periods + 2):
                     income = (data[i - j]['high'] - data[i - 1]['close']) / data[i - 1]['close']
                     if income > highIncome:
