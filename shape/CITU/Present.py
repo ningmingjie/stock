@@ -42,7 +42,6 @@ class Present:
     def handel(self, startDay, endDay, period):
         data = self.getHistData(startDay, endDay)
         dataLen = len(data)
-        lst = []
         succee = 0
         defeated = 0
         for i in range(dataLen-1, -1, -1):
@@ -62,31 +61,51 @@ class Present:
                 defeated = defeated+1
                 is_succee = 10
 
+            morrowIncome = 0
+            morrowPrice = 0
+            castDate = '1970-01-01'
             appearDate = data[i-1]['date']
-            castDate = data[i-1]['date']
             highIncome = 0
             highPrice = 0
             highPosition = 0
-            periods = period+1
-            if is_succee == 10:
-                periods = 2
-            for j in range(2, periods+1):
-                income = (data[i-j]['high'] - data[i-1]['close'])/data[i-1]['close']
-                if income > highIncome:
-                    castDate = data[i-j]['date']
-                    highIncome = income
-                    highPrice = data[i-j]['high']
-                    highPosition = j-1
-            totalIncome = (data[i-(periods)]['close'] - data[i-1]['close'])/data[i-1]['close']
-            totalPositio = period
-            totalPrice = data[i-(periods)]['close']
-            winRate = succee/float((succee+defeated))
+            winRate = 0
+            periods = period
+            totalIncome = 0
+            totalPrice = 0
 
-            sql = """INSERT INTO shape (shape_key, sec_code, sec_name, is_succee, appear_date, cast_date, high_income, \
+            stage = 300
+            if (i-period)<0:
+                stage = 200
+                periods = i
+
+            if i-1 != 0:
+                morrowIncome = (data[i - 2]['close'] - data[i - 1]['close']) / data[i - 1]['close']
+                morrowPrice = data[i - 2]['close']
+                castDate = data[i - 1]['date']
+                for j in range(2, periods + 2):
+                    income = (data[i - j]['high'] - data[i - 1]['close']) / data[i - 1]['close']
+                    if income > highIncome:
+                        castDate = data[i - j]['date']
+                        highIncome = income
+                        highPrice = data[i - j]['high']
+                        highPosition = j - 1
+
+                totalIncome = (data[i - (periods + 1)]['close'] - data[i - 1]['close']) / data[i - 1]['close']
+                totalPrice = data[i - (periods + 1)]['close']
+                winRate = succee / float((succee + defeated))
+
+            sql = """INSERT INTO shape (shape_key, sec_code, sec_name, is_succee, appear_date, cast_date, morrow_income, morrow_price, high_income, \
 high_price, total_income, total_price, best_position, total_position, win_rate, stage, created_at, updated_at) VALUES ('%s', \
-'%s', '%s', '%d', '%s', '%s', '%f', '%f', '%f', '%f', '%d', '%d', '%f', '%d',  '%d', '%d')""" % ('CITU', self.secCode, self.secName, \
-is_succee, appearDate, castDate, highIncome, highPrice, totalIncome, totalPrice, highPosition, totalPositio, winRate, 300, int(time.time()), int(time.time()))
+'%s', '%s', '%d', '%s', '%s', '%f', '%f', '%f', '%f', '%f', '%f', '%d', '%d', '%f', '%d',  '%d', '%d')""" % ('CITU', self.secCode, self.secName, \
+is_succee, appearDate, castDate, morrowIncome, morrowPrice, highIncome, highPrice, totalIncome, totalPrice, highPosition, period, winRate, stage, int(time.time()), int(time.time()))
             stock_db.insertData(sql)
+            id = stock_db.getLastId()
+
+            if id > 0:
+                for k in range(0, 2):
+                    shapeDetail = """INSERT INTO shape_detail (shape_id, shape_date, shape_price, shape_income, created_at, updated_at) VALUES ('%d', '%s','%f', '%f', '%d', '%d')""" % ( \
+                        id, data[i-k]['date'], data[i-k]['close'], data[i-k]['p_change']/100, int(time.time()), int(time.time()))
+                    stock_db.insertData(shapeDetail)
         return True
 
 class Stock:
@@ -95,13 +114,14 @@ class Stock:
             lines = [line.strip() for line in f.readlines()]
         return lines
 
-stock = Stock()
-sk = stock.getStockAll()
-
+#stock = Stock()
+#sk = stock.getStockAll()
+sk = ["601518-吉林高速"]
 for tk in sk:
     try:
         sec = tk.partition("-")
         history = History(sec[0], sec[2])
-        res = history.handel('2016-01-01', '2018-11-01', 10)
+        res = history.handel('2016-01-01', '2018-10-30', 10)
+        print sec[2]
     except:
         continue
