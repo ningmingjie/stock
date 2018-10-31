@@ -19,6 +19,7 @@ class Stock:
         self._endDate = time.strftime('%Y%m%d',time.localtime(time.time()))
 
     def getTradeCal(self):
+        ts.set_token('9caf3d505f4f4b5cefd16f25c533e1cae081773442c216888678ddee')
         pro = ts.pro_api()
         data = pro.trade_cal(exchange_id='', start_date=self._startDate, end_date=self._endDate)
         data.reset_index(inplace=True)
