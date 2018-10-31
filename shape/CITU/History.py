@@ -97,6 +97,7 @@ high_price, total_income, total_price, best_position, total_position, win_rate, 
 '%s', '%s', '%d', '%s', '%s', '%f', '%f', '%f', '%f', '%f', '%f', '%d', '%d', '%f', '%d',  '%d', '%d')""" % ('CITU', self.secCode, self.secName, \
 is_succee, appearDate, castDate, morrowIncome, morrowPrice, highIncome, highPrice, totalIncome, totalPrice, highPosition, totalPositio, winRate, stage, int(time.time()), int(time.time()))
             id = stock_db.insertData(sql)
+            print id
             if id > 0:
                 for k in range(0, 2):
                     shapeDetail = """INSERT INTO shape_detail (shape_id, shape_date, shape_price, shape_income, created_at, updated_at) VALUES ('%d', '%s','%f', '%f', '%d', '%d')""" % ( \
@@ -118,7 +119,7 @@ for tk in sk:
     try:
         sec = tk.partition("-")
         history = History(sec[0], sec[2])
-        res = history.handel('2016-01-01', '2018-11-01', 10)
+        res = history.handel('2016-01-01', '2018-11-30', 10)
         print sec[2]
     except:
         continue

@@ -75,7 +75,7 @@ class DB(object):
             try:
                 self._cursor.execute(sql)
                 self._conn.commit()
-                id = int(self._conn.insert_id())
+                id = int(self._conn.lastrowid())
             except Exception, data:
                 self._conn.rollback()
                 #self._logger.warn("insert database exception, %s" % data)
