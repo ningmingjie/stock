@@ -61,10 +61,10 @@ class History:
                 defeated = defeated+1
                 is_succee = 10
 
-            morrowIncome = (data[i-2]['close']-data[i-1]['close'])/data[i-1]['close']
-            morrowPrice = data[i-2]['close']
+            morrowIncome = 0
+            morrowPrice = 0
+            castDate = '1970-01-01'
             appearDate = data[i-1]['date']
-            castDate = data[i-1]['date']
             highIncome = 0
             highPrice = 0
             highPosition = 0
@@ -79,6 +79,9 @@ class History:
                 periods = i
 
             if i-1 != 0:
+                morrowIncome = (data[i - 2]['close'] - data[i - 1]['close']) / data[i - 1]['close']
+                morrowPrice = data[i - 2]['close']
+                castDate = data[i - 1]['date']
                 for j in range(2, periods + 2):
                     income = (data[i - j]['high'] - data[i - 1]['close']) / data[i - 1]['close']
                     if income > highIncome:
