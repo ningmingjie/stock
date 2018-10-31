@@ -23,3 +23,8 @@ class Stock:
         data = pro.trade_cal(exchange_id='', start_date=self._startDate, end_date=self._endDate)
         data.reset_index(inplace=True)
         print data.to_dict('records')
+
+
+
+stock = Stock()
+stock.getTradeCal()
