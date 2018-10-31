@@ -70,16 +70,17 @@ class History:
             highPrice = 0
             highPosition = 0
             winRate = 0
-            totalPositio = period
+            periods = period
             totalIncome = 0
             totalPrice = 0
 
             stage = 300
             if (i-period)<0:
                 stage = 200
+                periods = i
 
-            if i!=0:
-                for j in range(2, period + 2):
+            if i>0:
+                for j in range(2, periods + 2):
                     income = (data[i - j]['high'] - data[i - 1]['close']) / data[i - 1]['close']
                     if income > highIncome:
                         castDate = data[i - j]['date']
@@ -87,21 +88,21 @@ class History:
                         highPrice = data[i - j]['high']
                         highPosition = j - 1
 
-                totalIncome = (data[i - (period + 1)]['close'] - data[i - 1]['close']) / data[i - 1]['close']
-                totalPrice = data[i - (period + 1)]['close']
+                totalIncome = (data[i - (periods + 1)]['close'] - data[i - 1]['close']) / data[i - 1]['close']
+                totalPrice = data[i - (periods + 1)]['close']
                 winRate = succee / float((succee + defeated))
 
             sql = """INSERT INTO shape (shape_key, sec_code, sec_name, is_succee, appear_date, cast_date, morrow_income, morrow_price, high_income, \
 high_price, total_income, total_price, best_position, total_position, win_rate, stage, created_at, updated_at) VALUES ('%s', \
 '%s', '%s', '%d', '%s', '%s', '%f', '%f', '%f', '%f', '%f', '%f', '%d', '%d', '%f', '%d',  '%d', '%d')""" % ('CITU', self.secCode, self.secName, \
-is_succee, appearDate, castDate, morrowIncome, morrowPrice, highIncome, highPrice, totalIncome, totalPrice, highPosition, totalPositio, winRate, stage, int(time.time()), int(time.time()))
+is_succee, appearDate, castDate, morrowIncome, morrowPrice, highIncome, highPrice, totalIncome, totalPrice, highPosition, period, winRate, stage, int(time.time()), int(time.time()))
             stock_db.insertData(sql)
             id = stock_db.getLastId()
 
             if id > 0:
                 for k in range(0, 2):
                     shapeDetail = """INSERT INTO shape_detail (shape_id, shape_date, shape_price, shape_income, created_at, updated_at) VALUES ('%d', '%s','%f', '%f', '%d', '%d')""" % ( \
-                        id, data[i-k]['date'], data[i-k]['close'], data[i-k]['p_change'], int(time.time()), int(time.time()))
+                        id, data[i-k]['date'], data[i-k]['close'], data[i-k]['p_change']/100, int(time.time()), int(time.time()))
                     stock_db.insertData(shapeDetail)
         return True
 
