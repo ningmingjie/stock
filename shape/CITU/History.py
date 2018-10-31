@@ -118,7 +118,7 @@ for tk in sk:
     try:
         sec = tk.partition("-")
         history = History(sec[0], sec[2])
-        res = history.handel('2016-01-01', '2018-11-30', 10)
+        res = history.handel('2016-01-01', '2018-10-30', 10)
         print sec[2]
     except:
         continue
