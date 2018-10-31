@@ -101,7 +101,7 @@ is_succee, appearDate, castDate, morrowIncome, morrowPrice, highIncome, highPric
             if id > 0:
                 for k in range(0, 2):
                     shapeDetail = """INSERT INTO shape_detail (shape_id, shape_date, shape_price, shape_income, created_at, updated_at) VALUES ('%d', '%s','%f', '%f', '%d', '%d')""" % ( \
-                        id, data[i+k]['date'], data[i+k]['close'], data[i+k]['p_change'], int(time.time()), int(time.time()))
+                        id, data[i-k]['date'], data[i-k]['close'], data[i-k]['p_change'], int(time.time()), int(time.time()))
                     stock_db.insertData(shapeDetail)
         return True
 
