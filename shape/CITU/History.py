@@ -42,7 +42,6 @@ class History:
     def handel(self, startDay, endDay, period):
         data = self.getHistData(startDay, endDay)
         dataLen = len(data)
-
         succee = 0
         defeated = 0
         for i in range(dataLen-1, -1, -1):
@@ -102,8 +101,7 @@ is_succee, appearDate, castDate, morrowIncome, morrowPrice, highIncome, highPric
             if id > 0:
                 for k in range(0, 2):
                     shapeDetail = """INSERT INTO shape_detail (shape_id, shape_date, shape_price, shape_income, created_at, updated_at) VALUES ('%d', '%s','%f', '%f', '%d', '%d')""" % ( \
-                        id, data[i+k]['date'], data[i+k]['price'], data[i+k]['p_change'], int(time.time()),
-                        int(time.time()))
+                        id, data[i+k]['date'], data[i+k]['price'], data[i+k]['p_change'], int(time.time()), int(time.time()))
                     stock_db.insertData(shapeDetail)
         return True
 
@@ -117,10 +115,6 @@ class Stock:
 #sk = stock.getStockAll()
 sk = ["601518-吉林高速"]
 for tk in sk:
-    try:
-        sec = tk.partition("-")
-        history = History(sec[0], sec[2])
-        res = history.handel('2016-01-01', '2018-11-30', 10)
-        print sec[2]
-    except:
-        continue
+    sec = tk.partition("-")
+    history = History(sec[0], sec[2])
+    res = history.handel('2016-01-01', '2018-11-30', 10)
