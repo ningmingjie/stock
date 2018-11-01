@@ -26,7 +26,7 @@ class Present:
     """
     def getHistData(self):
 
-        data = ts.get_hist_data(self.secCode, '2018-10-30', '2018-10-31')
+        data = ts.get_hist_data(self.secCode, '2018-10-29', '2018-10-30')
         data.reset_index(inplace=True)
         #索引重新命名
         data.rename(
@@ -41,11 +41,10 @@ class Present:
     startDay ：开始时间
     endDay ：结束时间
     """
-    def handel(self):
+    def handel(self, period):
         data = self.getHistData()
         dataLen = len(data)
-        for i in range(0, dataLen):
-            print data[i]['date']
+        for i in range(dataLen-1, -1, -1):
             if data[i]['close'] > data[i]['open']:
                 continue
             if data[i]['low'] < data[i-1]['open']:
@@ -59,6 +58,33 @@ class Present:
                 is_succee = 20
             else:
                 is_succee = 10
+
+            morrowIncome = 0
+            morrowPrice = 0
+            castDate = '1970-01-01'
+            appearDate = data[i-1]['date']
+            highIncome = 0
+            highPrice = 0
+            highPosition = 0
+            winRate = 0
+            totalIncome = 0
+            totalPrice = 0
+            stage = 200
+
+            sql = """INSERT INTO shape (shape_key, sec_code, sec_name, is_succee, appear_date, cast_date, morrow_income, morrow_price, high_income, \
+high_price, total_income, total_price, best_position, total_position, win_rate, stage, created_at, updated_at) VALUES ('%s', \
+'%s', '%s', '%d', '%s', '%s', '%f', '%f', '%f', '%f', '%f', '%f', '%d', '%d', '%f', '%d',  '%d', '%d')""" % ('CITU', self.secCode, self.secName, \
+is_succee, appearDate, castDate, morrowIncome, morrowPrice, highIncome, highPrice, totalIncome, totalPrice, highPosition, i-1, winRate, stage, int(time.time()), int(time.time()))
+            stock_db.insertData(sql)
+            id = stock_db.getLastId()
+
+            if id > 0:
+                for k in range(0, 2):
+                    shapeDetail = """INSERT INTO shape_detail (shape_id, shape_date, shape_price, shape_income, created_at, updated_at) VALUES ('%d', '%s','%f', '%f', '%d', '%d')""" % ( \
+                        id, data[i-k]['date'], data[i-k]['close'], data[i-k]['p_change']/100, int(time.time()), int(time.time()))
+                    stock_db.insertData(shapeDetail)
+                continue
+        return True
 
 class Stock:
     def getStockAll(self):
