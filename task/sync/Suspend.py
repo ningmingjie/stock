@@ -25,6 +25,7 @@ class Suspend:
     def getSuspend(self, secID):
         pro = ts.pro_api()
         data = pro.suspend(ts_code=secID, suspend_date='', resume_date='', fiedls='')
+        print data
         return data.to_dict('records')[0]
 
     #写入数据
