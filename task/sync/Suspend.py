@@ -61,14 +61,7 @@ class Suspend:
     #写入数据
     def insertSuspend(self):
         suspend = self.getDaySuspend(self._endDate, '')
-        if suspend == False:
-            return False
-
-        for i in range(0, len(suspend)):
-            suSql = """SELECT * FROM suspend WHERE sec_code = '%s' AND suspend_date = '%s' AND suspend_type = '%d'""" % (self.secCode, self._endDate, 10)
-            query = stock_db.fetch_one(suSql)
-            print query
-
+        print suspend
 
 
         return True
