@@ -18,12 +18,12 @@ class Write:
     def getTodayAll(self):
         #data = ts.get_today_all()
         pro = ts.pro_api()
-        data = pro.query('stock_basic', exchange_id='', list_status='L',
+        data = pro.query('stock_basic', exchange_id='', list_status='D',
                          fields='ts_code,symbol,name,area,industry,list_date')
         data.reset_index(inplace=True)
         dt = np.array(data)
         dts = dt.tolist()
-        print dts
+
         for st in dts:
             self.write(st[2], st[3])
         return True
