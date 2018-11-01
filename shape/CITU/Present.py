@@ -17,14 +17,16 @@ class Present:
     def __init__(self, secCode, secName):
         self.secCode = secCode
         self.secName = secName
+        self._date = time.strftime('%Y%m%d', time.localtime(time.time()))
+        self.startDate = time.strftime('%Y%m%d', time.localtime(time.time()-24*3600))
 
     """
-    获取历史行情数据
+    获取近两日行情数据
     startDay ：开始时间
     endDay ：结束时间
     """
-    def getHistData(self, startDay = '2001-12-10', endDay = '2018-10-30'):
-        data = ts.get_hist_data(self.secCode, startDay, endDay)
+    def getHistData(self):
+        data = ts.get_hist_data(self.secCode, self.startDate, self._date)
         data.reset_index(inplace=True)
         #索引重新命名
         data.rename(
@@ -39,8 +41,8 @@ class Present:
     startDay ：开始时间
     endDay ：结束时间
     """
-    def handel(self, startDay, endDay, period):
-        data = self.getHistData(startDay, endDay)
+    def handel(self):
+        data = self.getHistData()
         dataLen = len(data)
         succee = 0
         defeated = 0

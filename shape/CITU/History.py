@@ -97,7 +97,7 @@ class History:
             sql = """INSERT INTO shape (shape_key, sec_code, sec_name, is_succee, appear_date, cast_date, morrow_income, morrow_price, high_income, \
 high_price, total_income, total_price, best_position, total_position, win_rate, stage, created_at, updated_at) VALUES ('%s', \
 '%s', '%s', '%d', '%s', '%s', '%f', '%f', '%f', '%f', '%f', '%f', '%d', '%d', '%f', '%d',  '%d', '%d')""" % ('CITU', self.secCode, self.secName, \
-is_succee, appearDate, castDate, morrowIncome, morrowPrice, highIncome, highPrice, totalIncome, totalPrice, highPosition, period, winRate, stage, int(time.time()), int(time.time()))
+is_succee, appearDate, castDate, morrowIncome, morrowPrice, highIncome, highPrice, totalIncome, totalPrice, highPosition, periods, winRate, stage, int(time.time()), int(time.time()))
             stock_db.insertData(sql)
             id = stock_db.getLastId()
 
