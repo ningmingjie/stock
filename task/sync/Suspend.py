@@ -61,7 +61,7 @@ class Suspend:
     #写入数据
     def insertSuspend(self):
         suspend = self.getDaySuspend(self._endDate, '')
-        print suspend
+        print len(suspend)
 
 
         return True
