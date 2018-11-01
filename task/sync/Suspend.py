@@ -65,5 +65,5 @@ for tk in sk:
         sec = re.split("[-]", tk)
         suspend = Suspend(sec[0], sec[1])
         suspend.insertSuspend(sec[2])
-    except:
-        continue
+    except Exception, data:
+        print data
