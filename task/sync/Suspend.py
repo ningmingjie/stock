@@ -88,6 +88,6 @@ for tk in sk:
     try:
         sec = re.split("[-]", tk)
         suspend = Suspend(sec[0], sec[1], sec[2])
-        suspend.insertSuspend(sec[2])
+        suspend.insertSuspend()
     except Exception, data:
         print data
