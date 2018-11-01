@@ -23,12 +23,12 @@ class Write:
         dts = dt.tolist()
 
         for st in dts:
-            self.write(st[2], st[3])
+            self.write(st[2], st[3], st[1])
         return True
 
-    def write(self, secCode, secName):
+    def write(self, secCode, secName, secID):
         fo = open(self._path + "stockTicker.txt", "a")
-        fo.write(secCode + "-" + secName + "\n")
+        fo.write(secCode + "-" + secName + "-" + secID + "\n")
         fo.close()
         return True
 

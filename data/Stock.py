@@ -81,14 +81,30 @@ class Stock:
         return data.to_dict('records')
 
     #获取停复牌信息
-    def getSuspend(self):
+    def getSuspend(self, secID):
         pro = ts.pro_api()
+        data = pro.suspend(ts_code=secID, suspend_date='', resume_date='', fiedls='')
+        data.reset_index(inplace=True)
+        print data.to_dict('records')[0]
 
-        df = pro.suspend(ts_code='600848.SH', suspend_date='', resume_date='', fiedls='')
 
-        print df
+class Stocks:
+    def getStockAll(self):
+        with open('/data/share/loudou/stock/stockTicker.txt', 'r') as f:
+            lines = [line.strip() for line in f.readlines()]
+        return lines
 
 
-stock = Stock()
-stock.getSuspend()
+stock = Stocks()
+sk = stock.getStockAll()
+#sk = ["601518-吉林高速"]
+for tk in sk:
+    try:
+        sec = tk.partition("-")
+        stock = Stock()
+        stock.getSuspend(sec[4])
+    except:
+        continue
+#stock = Stock()
+#stock.getSuspend()
 #stock.getTradeCalList('20181031', '20181101')
