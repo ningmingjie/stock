@@ -24,9 +24,9 @@ class Write:
         dt = np.array(data)
         dts = dt.tolist()
         print dts
-        #for st in dts:
-            #self.write(st[1], st[2])
-        #return True
+        for st in dts:
+            self.write(st[2], st[3])
+        return True
 
     def write(self, secCode, secName):
         fo = open(self._path + "stockTicker.txt", "a")
