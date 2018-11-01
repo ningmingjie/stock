@@ -53,6 +53,19 @@ class DB(object):
                 res = False
                 #self._logger.warn("query database exception, %s" % data)
         return res
+
+    # 获取查询结果集
+    def fetch_one(self, sql):
+        res = ''
+        if (self._conn):
+            try:
+                self._cursor.execute(sql)
+                res = self._cursor.fetchone()
+            except Exception, data:
+                res = False
+                #self._logger.warn("query database exception, %s" % data)
+        return res
+
     # 更新数据
     def update(self, sql):
         flag = False

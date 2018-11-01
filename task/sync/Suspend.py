@@ -15,9 +15,10 @@ sys.setdefaultencoding('utf-8')
 class Suspend:
     #10:停牌
     #20:复牌
-    def __init__(self, secCode, secName):
+    def __init__(self, secCode, secName, secID):
         ts.set_token('9caf3d505f4f4b5cefd16f25c533e1cae081773442c216888678ddee')
         self._endDate = time.strftime('%Y%m%d',time.localtime(time.time()))
+        self.secID = secID
         self.secCode = secCode
         self.secName = secName
 
@@ -29,8 +30,16 @@ class Suspend:
             return data.to_dict('records')[0]
         return False
 
+    # 获取某日停复牌信息
+    def getDaySuspend(self, suspendDate, resumeDate):
+        pro = ts.pro_api()
+        data = pro.query('suspend', ts_code='', suspend_date=suspendDate, resume_date=resumeDate, fiedls='')
+        if data.to_dict('records'):
+            return data.to_dict('records')
+        return False
+
     #写入数据
-    def insertSuspend(self, secID):
+    def insertHistorySuspend(self, secID):
         suspend = self.getSuspend(secID)
         if suspend == False:
             return False
@@ -49,6 +58,21 @@ class Suspend:
 
         return True
 
+    #写入数据
+    def insertSuspend(self):
+        suspend = self.getDaySuspend(self._endDate, '')
+        if suspend == False:
+            return False
+
+        for i in range(0, len(suspend)):
+            suSql = """SELECT * FROM suspend WHERE sec_code = '%s' AND suspend_date = '%s' AND suspend_type = '%d'""" % (self.secCode, self._endDate, 10)
+            query = stock_db.fetch_one(suSql)
+            print query
+
+
+
+        return True
+
 
 class getStock:
     def getStockAll(self):
@@ -63,7 +87,7 @@ sk = stock.getStockAll()
 for tk in sk:
     try:
         sec = re.split("[-]", tk)
-        suspend = Suspend(sec[0], sec[1])
+        suspend = Suspend(sec[0], sec[1], sec[2])
         suspend.insertSuspend(sec[2])
     except Exception, data:
         print data
