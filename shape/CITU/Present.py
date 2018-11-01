@@ -41,7 +41,7 @@ class Present:
     startDay ：开始时间
     endDay ：结束时间
     """
-    def handel(self, period):
+    def handel(self):
         data = self.getHistData()
         dataLen = len(data)
         for i in range(dataLen-1, -1, -1):
