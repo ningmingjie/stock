@@ -87,5 +87,5 @@ class Stock:
 
 
 stock = Stock()
-stock.getSuspend('20181031', '20181101')
+stock.getSuspend()
 #stock.getTradeCalList('20181031', '20181101')
