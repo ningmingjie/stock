@@ -82,7 +82,7 @@ class Stock:
 
     def getSuspend(self):
         pro = ts.pro_api()
-        df = pro.query('suspend', ts_code='', suspend_date=self._endDate, resume_date='', fiedls='')
+        df = pro.query('resume', ts_code='', suspend_date=self._endDate, resume_date='', fiedls='')
         print df
 
 
