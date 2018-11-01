@@ -80,10 +80,12 @@ class Stock:
         #返回字典类型
         return data.to_dict('records')
 
+    #获取停复牌信息
     def getSuspend(self):
         pro = ts.pro_api()
-        df = pro.query('suspend', ts_code='', suspend_date='', resume_date='20181101', fiedls='')
-        #df = pro.suspend(ts_code='000972.SZ', suspend_date='', resume_date='', fiedls='')
+
+        df = pro.suspend(ts_code='600848.SH', suspend_date='', resume_date='', fiedls='')
+
         print df
 
 
