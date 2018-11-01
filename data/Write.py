@@ -18,7 +18,7 @@ class Write:
     def getTodayAll(self):
         #data = ts.get_today_all()
         pro = ts.pro_api()
-        data = pro.query('stock_basic', exchange_id='', list_status='D',
+        data = pro.query('stock_basic', exchange_id='', list_status='P',
                          fields='ts_code,symbol,name,area,industry,list_date')
         data.reset_index(inplace=True)
         dt = np.array(data)
