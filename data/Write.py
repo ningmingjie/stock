@@ -13,7 +13,7 @@ class Write:
 
     def __init__(self):
         self._path = "/data/share/loudou/stock/"
-        ts.set_token('9caf3d505f4f4b5cefd16f25c533e1cae081773442c216888678ddee')
+        #ts.set_token('9caf3d505f4f4b5cefd16f25c533e1cae081773442c216888678ddee')
 
     def getTodayAll(self):
         data = ts.get_today_all()
