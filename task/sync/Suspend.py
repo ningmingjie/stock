@@ -32,12 +32,22 @@ class Suspend:
     #写入数据
     def insertSuspend(self, secID):
         suspend = self.getSuspend(secID)
-        _date = Date.getDateAmend()
-        print _date
-        #sql = """INSERT INTO suspend (sec_id, sec_code, sec_name, suspend_type, suspend_date, suspend_reason, created_at, updated_at) VALUES ('%s', '%s', \
-#'%s', '%d', '%s', '%s', '%d', '%d')""" % (secID, self.secCode, self.secName, 10, 1, suspend['suspend_reason'], int(time.time()), int(time.time()))
+        if suspend == False:
+            return False
+        _date = Date.getDateAmend(suspend['suspend_date'])
 
-        #stock_db.insertData(sql)
+        suspendSql = """INSERT INTO suspend (sec_id, sec_code, sec_name, suspend_type, suspend_date, suspend_reason, created_at, updated_at) VALUES ('%s', '%s', \
+'%s', '%d', '%s', '%s', '%d', '%d')""" % (secID, self.secCode, self.secName, 10, _date, suspend['suspend_reason'], int(time.time()), int(time.time()))
+        stock_db.insertData(suspendSql)
+
+        if suspend['resume_date'] != None:
+            _dateRes = Date.getDateAmend(suspend['resume_date'])
+            resumeSql = """INSERT INTO suspend (sec_id, sec_code, sec_name, suspend_type, suspend_date, suspend_reason, created_at, updated_at) VALUES ('%s', '%s', \
+            '%s', '%d', '%s', '%s', '%d', '%d')""" % (
+            secID, self.secCode, self.secName, 20, _dateRes, suspend['suspend_reason'], int(time.time()), int(time.time()))
+            stock_db.insertData(resumeSql)
+
+        return True
 
 
 class getStock:
@@ -47,13 +57,13 @@ class getStock:
         return lines
 
 
-#stock = getStock()
-#sk = stock.getStockAll()
-sk = ["603990-麦迪科技-603990.SH"]
+stock = getStock()
+sk = stock.getStockAll()
+#sk = ["603990-麦迪科技-603990.SH"]
 for tk in sk:
-    sec = re.split("[-]", tk)
-    suspend = Suspend(sec[0], sec[1])
-    suspend.insertSuspend(sec[2])
-#stock = Stock()
-#stock.getSuspend()
-#stock.getTradeCalList('20181031', '20181101')
+    try:
+        sec = re.split("[-]", tk)
+        suspend = Suspend(sec[0], sec[1])
+        suspend.insertSuspend(sec[2])
+    except:
+        continue
