@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 import sys
-sys.path.append('/data/www/stock/')
 import tushare as ts
 import numpy as np
 import pandas as pd
@@ -11,7 +10,7 @@ from config.db_config import stock_db
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-class Present:
+class Renewal:
 
     def __init__(self, secCode, secName):
         self.secCode = secCode
@@ -34,6 +33,14 @@ class Present:
                      'ma20': 'ma20', 'v_ma5': 'v_ma5', 'v_ma10': 'v_ma10', 'v_ma20': 'v_ma20'}, inplace=True)
         #返回字典类型
         return data.to_dict('records')
+
+    """
+    获取形态运行中的股票
+    """
+    def getOperationStock(self):
+        sql = """SELECT * FROM shape WHERE stage = 200 AND deleted_at IS NULL"""
+        query = stock_db.fetch_all(sql)
+        print query
 
     """
     计算形态
@@ -91,14 +98,15 @@ class Stock:
             lines = [line.strip() for line in f.readlines()]
         return lines
 
-stock = Stock()
-sk = stock.getStockAll()
-#sk = ["601518-吉林高速"]
+#
+# stock = Stock()
+#sk = stock.getStockAll()
+sk = ["601518-吉林高速"]
 for tk in sk:
     try:
         sec = tk.partition("-")
-        history = Present(sec[0], sec[2])
-        res = history.handel()
+        renewal = Renewal(sec[0], sec[2])
+        res = renewal.getOperationStock()
         print sec[2]
     except:
         continue
