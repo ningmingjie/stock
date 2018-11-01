@@ -84,9 +84,7 @@ class Stock:
     #获取停复牌信息
     def getSuspend(self, secID):
         pro = ts.pro_api()
-        print secID
         data = pro.suspend(ts_code=secID, suspend_date='', resume_date='', fiedls='')
-        print data
         data.reset_index(inplace=True)
         print data.to_dict('records')[0]
 
@@ -98,15 +96,14 @@ class Stocks:
         return lines
 
 
-#stock = Stocks()
-#sk = stock.getStockAll()
-sk = ["603990-麦迪科技-603990.SH"]
+stock = Stocks()
+sk = stock.getStockAll()
+#sk = ["603990-麦迪科技-603990.SH"]
 for tk in sk:
     try:
         sec = re.split("[-]", tk)
-        print sec
-        #stock = Stock()
-        #stock.getSuspend(sec[4])
+        stock = Stock()
+        stock.getSuspend(sec[2])
     except:
         continue
 #stock = Stock()
