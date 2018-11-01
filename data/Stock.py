@@ -4,6 +4,7 @@ import sys
 import tushare as ts
 import pandas as pd
 import time
+import re
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -101,9 +102,13 @@ class Stocks:
 #sk = stock.getStockAll()
 sk = ["603990-麦迪科技-603990.SH"]
 for tk in sk:
-    sec = tk.partition("-")
-    stock = Stock()
-    stock.getSuspend(sec[4])
+    try:
+        sec = re.split("[-]", tk)
+        print sec
+        #stock = Stock()
+        #stock.getSuspend(sec[4])
+    except:
+        continue
 #stock = Stock()
 #stock.getSuspend()
 #stock.getTradeCalList('20181031', '20181101')
