@@ -19,53 +19,20 @@ class Renewal:
         self._date = time.strftime('%Y%m%d', time.localtime(time.time()))
 
     """
-    获取近两日行情数据
-    startDay ：开始时间
-    endDay ：结束时间
-    """
-    def getHistData(self):
-        #获取上个交易日期
-        data = ts.get_hist_data(self.secCode, '2018-10-29', '2018-10-30')
-        data.reset_index(inplace=True)
-        #索引重新命名
-        data.rename(
-            columns={'date': 'date', 'open': 'open', 'high': 'high', 'close': 'close', 'low': 'low', 'volume': 'volume',
-                     'price_change': 'price_change', 'p_change': 'p_change', 'ma5': 'ma5', 'ma10': 'ma10',
-                     'ma20': 'ma20', 'v_ma5': 'v_ma5', 'v_ma10': 'v_ma10', 'v_ma20': 'v_ma20'}, inplace=True)
-        #返回字典类型
-        return data.to_dict('records')
-
-    """
     获取形态运行中的股票
     """
     def getOperationStock(self):
         sql = """SELECT * FROM shape WHERE stage = 200 AND deleted_at IS NULL"""
-        query = stock_db.fetch_all(sql)
-        print query
+        return stock_db.fetch_all(sql)
 
     """
-    计算形态
-    startDay ：开始时间
-    endDay ：结束时间
+    更新收益
     """
     def handel(self):
-        data = self.getHistData()
+        data = self.getOperationStock()
         dataLen = len(data)
-        for i in range(dataLen-1, -1, -1):
-            if data[i]['close'] > data[i]['open']:
-                continue
-            if data[i]['low'] < data[i-1]['open']:
-                continue
-            if data[i]['open'] < data[i-1]['close']:
-                continue
-            average = (data[i]['open']+data[i]['close'])/2
-            if data[i-1]['close'] < average:
-                continue
-            if data[i-1]['close'] < data[i-2]['close']:
-                is_succee = 20
-            else:
-                is_succee = 10
-
+        for i in range(0, dataLen):
+            calList = stock_db.getHistData(self.secCode, self._date, self._date)
             morrowIncome = 0
             morrowPrice = 0
             castDate = '1970-01-01'

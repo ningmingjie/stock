@@ -64,5 +64,28 @@ class Stock:
 
         return False
 
+    """
+    获取日行情数据
+    startDay ：开始时间
+    endDay ：结束时间
+    """
+    def getHistData(self, secCode, startDate, endDate):
+        data = ts.get_hist_data(secCode, startDate, endDate)
+        data.reset_index(inplace=True)
+        #索引重新命名
+        data.rename(
+            columns={'date': 'date', 'open': 'open', 'high': 'high', 'close': 'close', 'low': 'low', 'volume': 'volume',
+                     'price_change': 'price_change', 'p_change': 'p_change', 'ma5': 'ma5', 'ma10': 'ma10',
+                     'ma20': 'ma20', 'v_ma5': 'v_ma5', 'v_ma10': 'v_ma10', 'v_ma20': 'v_ma20'}, inplace=True)
+        #返回字典类型
+        return data.to_dict('records')
+
+    def getSuspend(self):
+        pro = ts.pro_api()
+        df = pro.query('suspend', ts_code='', suspend_date=self._endDate, resume_date='', fiedls='')
+        print df
+
+
 stock = Stock()
-stock.getTradeCalList('20181031', '20181101')
+stock.getSuspend('20181031', '20181101')
+#stock.getTradeCalList('20181031', '20181101')
