@@ -50,7 +50,7 @@ class getStock:
 sk = ["603990-麦迪科技-603990.SH"]
 for tk in sk:
     sec = re.split("[-]", tk)
-    suspend = Suspend()
+    suspend = Suspend(sec[0], sec[1])
     suspend.insertSuspend(sec[2])
 #stock = Stock()
 #stock.getSuspend()
