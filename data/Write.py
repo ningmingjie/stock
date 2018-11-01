@@ -23,9 +23,10 @@ class Write:
         data.reset_index(inplace=True)
         dt = np.array(data)
         dts = dt.tolist()
-        for st in dts:
-            self.write(st[1], st[2])
-        return True
+        print dts
+        #for st in dts:
+            #self.write(st[1], st[2])
+        #return True
 
     def write(self, secCode, secName):
         fo = open(self._path + "stockTicker.txt", "a")
