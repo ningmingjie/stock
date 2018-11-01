@@ -49,12 +49,9 @@ class getStock:
 #sk = stock.getStockAll()
 sk = ["603990-麦迪科技-603990.SH"]
 for tk in sk:
-    try:
-        sec = re.split("[-]", tk)
-        suspend = Suspend()
-        suspend.insertSuspend(sec[2])
-    except:
-        continue
+    sec = re.split("[-]", tk)
+    suspend = Suspend()
+    suspend.insertSuspend(sec[2])
 #stock = Stock()
 #stock.getSuspend()
 #stock.getTradeCalList('20181031', '20181101')
