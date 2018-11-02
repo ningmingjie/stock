@@ -91,7 +91,7 @@ class DB(object):
                 id = int(self._conn.lastrowid())
             except Exception, data:
                 self._conn.rollback()
-                #self._logger.warn("insert database exception, %s" % data)
+                print data
         return id
 
     def getLastId(self):
