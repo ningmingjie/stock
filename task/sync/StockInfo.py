@@ -5,6 +5,7 @@ sys.path.append('/data/www/stock/')
 import tushare as ts
 import time
 from config.db_config import stock_db
+from data.Date import Date
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -19,6 +20,7 @@ class StockInfo:
         pro = ts.pro_api()
         data = pro.query('stock_basic', exchange_id='', list_status='L', fields= \
 'ts_code, symbol, name, area, industry, fullname, enname, market, exchange_id, curr_type, list_status, list_date, delist_date, is_hs')
+        print data
         return data.to_dict('records')
 
     #写入数据
@@ -28,7 +30,7 @@ class StockInfo:
             sql = """INSERT INTO stock_info (sec_id, sec_code, sec_name, area, industry, fullname, enname, market, exchange_id, curr_type, list_status, list_date,\
  delist_date, is_hs, created_at, updated_at) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%d')""" % (data[i]['ts_code'], \
 data[i]['symbol'], data[i]['name'], data[i]['area'], data[i]['industry'], data[i]['fullname'], data[i]['enname'], data[i]['market'], data[i]['exchange_id'], data[i]['curr_type'], \
-data[i]['list_status'], data[i]['list_date'], data[i]['delist_date'], data[i]['is_hs'], int(time.time()), int(time.time()))
+data[i]['list_status'], Date.getDateAmend(data[i]['list_date']), Date.getDateAmend(data[i]['delist_date']), data[i]['is_hs'], int(time.time()), int(time.time()))
             stock_db.insertData(sql)
 
         return True
