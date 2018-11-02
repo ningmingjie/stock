@@ -20,17 +20,20 @@ class StockInfo:
         pro = ts.pro_api()
         data = pro.query('stock_basic', exchange_id='', list_status='L', fields= \
 'ts_code, symbol, name, area, industry, fullname, enname, market, exchange_id, curr_type, list_status, list_date, delist_date, is_hs')
-        print data
+        #print data
         return data.to_dict('records')
 
     #写入数据
     def insertStockInfo(self):
         data = self.getQuery()
         for i in range(0, len(data)):
+            delistDate = '1970-01-01'
+            if data[i]['delist_date'] != None:
+                delistDate = Date.getDateAmend(data[i]['delist_date'])
             sql = """INSERT INTO stock_info (sec_id, sec_code, sec_name, area, industry, fullname, enname, market, exchange_id, curr_type, list_status, list_date,\
  delist_date, is_hs, created_at, updated_at) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%d')""" % (data[i]['ts_code'], \
 data[i]['symbol'], data[i]['name'], data[i]['area'], data[i]['industry'], data[i]['fullname'], data[i]['enname'], data[i]['market'], data[i]['exchange_id'], data[i]['curr_type'], \
-data[i]['list_status'], Date.getDateAmend(data[i]['list_date']), Date.getDateAmend(data[i]['delist_date']), data[i]['is_hs'], int(time.time()), int(time.time()))
+data[i]['list_status'], Date.getDateAmend(data[i]['list_date']), delistDate, data[i]['is_hs'], int(time.time()), int(time.time()))
             stock_db.insertData(sql)
 
         return True
