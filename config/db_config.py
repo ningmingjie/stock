@@ -88,7 +88,7 @@ class DB(object):
             try:
                 self._cursor.execute(sql)
                 self._conn.commit()
-                id = int(self._conn.lastrowid())
+                id = int(self._cursor.lastrowid())
             except Exception, data:
                 self._conn.rollback()
                 print data

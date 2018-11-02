@@ -30,9 +30,9 @@ class StockInfo:
             delistDate = '1970-01-01'
             if data[i]['delist_date'] != None:
                 delistDate = Date.getDateAmend(data[i]['delist_date'])
-            sql = """INSERT INTO stock_info (sec_id, sec_code, sec_name, area, industry, fullname, enname, market, exchange_id, curr_type, list_status, list_date,\
- delist_date, is_hs, created_at, updated_at) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%d')""" % (data[i]['ts_code'], \
-data[i]['symbol'], data[i]['name'], data[i]['area'], data[i]['industry'], data[i]['fullname'], data[i]['enname'], data[i]['market'], data[i]['exchange_id'], data[i]['curr_type'], \
+            sql = """INSERT INTO stock_info (sec_id, sec_code, sec_name, area, industry, fullname, market, exchange_id, curr_type, list_status, list_date,\
+ delist_date, is_hs, created_at, updated_at) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%d')""" % (data[i]['ts_code'], \
+data[i]['symbol'], data[i]['name'], data[i]['area'], data[i]['industry'], data[i]['fullname'], data[i]['market'], data[i]['exchange_id'], data[i]['curr_type'], \
 data[i]['list_status'], Date.getDateAmend(data[i]['list_date']), delistDate, data[i]['is_hs'], int(time.time()), int(time.time()))
             stock_db.insertData(sql)
 
