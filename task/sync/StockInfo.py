@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 import sys
+sys.path.append('/data/www/stock/')
 import tushare as ts
 import time
 from config.db_config import stock_db
