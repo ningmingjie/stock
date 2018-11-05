@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 import sys
+sys.path.append('/data/www/stock/')
 import tushare as ts
 import pandas as pd
 import time
 import re
+from config.db_config import stock_db
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -87,6 +89,12 @@ class Stock:
         data = pro.suspend(ts_code=secID, suspend_date='', resume_date='', fiedls='')
         data.reset_index(inplace=True)
         print data.to_dict('records')[0]
+
+    @staticmethod
+    def getStockInfo(secID):
+        sql = """SELECT sec_id, sec_code, sec_name FROM stock_info WHERE sec_id = '%s'""" % (secID)
+        query = stock_db.fetch_one(sql)
+        return query
 
 
 class Stocks:
