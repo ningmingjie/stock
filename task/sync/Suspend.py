@@ -66,7 +66,7 @@ class Suspend:
             return False
 
         for i in range(0, len(suspend)):
-            suSql = """SELECT * FROM suspend WHERE sec_code = '%s' AND suspend_date = '%s' AND suspend_type = '%d'""" % (self.secCode, self._endDate, 10)
+            suSql = """SELECT * FROM suspend WHERE sec_id = '%s' AND suspend_date = '%s' AND suspend_type = '%d'""" % (suspend[i]['ts_code'], self._endDate, 10)
             query = stock_db.fetch_one(suSql)
             print query
 
