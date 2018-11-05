@@ -104,16 +104,16 @@ class Stocks:
         return lines
 
 
-stock = Stocks()
-sk = stock.getStockAll()
+#stock = Stocks()
+#sk = stock.getStockAll()
 #sk = ["603990-麦迪科技-603990.SH"]
-for tk in sk:
-    try:
-        sec = re.split("[-]", tk)
-        stock = Stock()
-        stock.getSuspend(sec[2])
-    except:
-        continue
+#for tk in sk:
+#    try:
+#        sec = re.split("[-]", tk)
+#        stock = Stock()
+#        stock.getSuspend(sec[2])
+#    except:
+#        continue
 #stock = Stock()
 #stock.getSuspend()
 #stock.getTradeCalList('20181031', '20181101')
