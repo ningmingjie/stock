@@ -26,7 +26,7 @@ class DB(object):
 
 
         if (self._conn):
-            self._cursor = self._conn.cursor()
+            self._cursor = self._conn.cursor(cursorclass=MySQLdb.cursors.DictCursor)
 
 
     # 数据库连接
