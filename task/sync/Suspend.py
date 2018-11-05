@@ -17,7 +17,8 @@ class Suspend:
     #20:复牌
     def __init__(self):
         ts.set_token('9caf3d505f4f4b5cefd16f25c533e1cae081773442c216888678ddee')
-        self._endDate = time.strftime('%Y%m%d',time.localtime(time.time()))
+        #self._endDate = time.strftime('%Y%m%d',time.localtime(time.time()))
+        self._endDate = '20181101'
         #self.secID = secID
         #self.secCode = secCode
         #self.secName = secName
@@ -69,17 +70,7 @@ class Suspend:
             query = stock_db.fetch_one(suSql)
             print query
 
-            suspendSql = """INSERT INTO suspend (sec_id, sec_code, sec_name, suspend_type, suspend_date, suspend_reason, created_at, updated_at) VALUES ('%s', '%s', \
-'%s', '%d', '%s', '%s', '%d', '%d')""" % (self.secID, self.secCode, self.secName, 10, self._endDate, suspend['suspend_reason'], int(time.time()), int(time.time()))
-            stock_db.insertData(suspendSql)
 
-        resume = self.getDaySuspend('', self._endDate)
-        if suspend == False:
-            return False
-        for i in range(0, len(suspend)):
-            resumeSql = """INSERT INTO suspend (sec_id, sec_code, sec_name, suspend_type, suspend_date, suspend_reason, created_at, updated_at) VALUES ('%s', '%s', \
-'%s', '%d', '%s', '%s', '%d', '%d')""" % (self.secID, self.secCode, self.secName, 20, self._endDate, suspend['suspend_reason'], int(time.time()), int(time.time()))
-            stock_db.insertData(resumeSql)
 
         return True
 
