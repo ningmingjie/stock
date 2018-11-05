@@ -69,12 +69,24 @@ class Suspend:
         for i in range(0, len(suspend)):
             suSql = """SELECT * FROM suspend WHERE sec_id = '%s' AND suspend_date = '%s' AND suspend_type = '%d'""" % (suspend[i]['ts_code'], self._endDate, 10)
             query = stock_db.fetch_one(suSql)
-            if query != None:
+            if query == None:
                 stock = Stock.getStockInfo(suspend[i]['ts_code'])
                 suspendSql = """INSERT INTO suspend (sec_id, sec_code, sec_name, suspend_type, suspend_date, suspend_reason, created_at, updated_at) VALUES ('%s', '%s', \
 '%s', '%d', '%s', '%s', '%d', '%d')""" % (stock['sec_id'], stock['sec_code'], stock['sec_name'], 10, self._endDate, suspend['suspend_reason'],int(time.time()),int(time.time()))
                 stock_db.insertData(suspendSql)
 
+        resume = self.getDaySuspend('', self._endDate)
+        if resume == False:
+            return False
+
+        for i in range(0, len(resume)):
+            reSql = """SELECT * FROM suspend WHERE sec_id = '%s' AND suspend_date = '%s' AND suspend_type = '%d'""" % (resume[i]['ts_code'], self._endDate, 20)
+            query = stock_db.fetch_one(reSql)
+            if query == None:
+                stock = Stock.getStockInfo(suspend[i]['ts_code'])
+                resumeSql = """INSERT INTO suspend (sec_id, sec_code, sec_name, suspend_type, suspend_date, suspend_reason, created_at, updated_at) VALUES ('%s', '%s', \
+'%s', '%d', '%s', '%s', '%d', '%d')""" % (stock['sec_id'], stock['sec_code'], stock['sec_name'], 20, self._endDate, resume['suspend_reason'], int(time.time()), int(time.time()))
+                stock_db.insertData(resumeSql)
 
         return True
 
