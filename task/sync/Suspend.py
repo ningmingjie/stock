@@ -72,7 +72,7 @@ class Suspend:
             if query == None:
                 stock = Stock.getStockInfo(suspend[i]['ts_code'])
                 suspendSql = """INSERT INTO suspend (sec_id, sec_code, sec_name, suspend_type, suspend_date, suspend_reason, created_at, updated_at) VALUES ('%s', '%s', \
-'%s', '%d', '%s', '%s', '%d', '%d')""" % (stock['sec_id'], stock['sec_code'], stock['sec_name'], 10, Date.getDateAmend(self._endDate), suspend['suspend_reason'],int(time.time()),int(time.time()))
+'%s', '%d', '%s', '%s', '%d', '%d')""" % (stock['sec_id'], stock['sec_code'], stock['sec_name'], 10, Date.getDateAmend(self._endDate), suspend[i]['suspend_reason'],int(time.time()),int(time.time()))
                 stock_db.insertData(suspendSql)
 
         resume = self.getDaySuspend('', self._endDate)
@@ -85,7 +85,7 @@ class Suspend:
             if query == None:
                 stock = Stock.getStockInfo(suspend[i]['ts_code'])
                 resumeSql = """INSERT INTO suspend (sec_id, sec_code, sec_name, suspend_type, suspend_date, suspend_reason, created_at, updated_at) VALUES ('%s', '%s', \
-'%s', '%d', '%s', '%s', '%d', '%d')""" % (stock['sec_id'], stock['sec_code'], stock['sec_name'], 20, Date.getDateAmend(self._endDate), resume['suspend_reason'], int(time.time()), int(time.time()))
+'%s', '%d', '%s', '%s', '%d', '%d')""" % (stock['sec_id'], stock['sec_code'], stock['sec_name'], 20, Date.getDateAmend(self._endDate), resume[i]['suspend_reason'], int(time.time()), int(time.time()))
                 stock_db.insertData(resumeSql)
 
         return True
