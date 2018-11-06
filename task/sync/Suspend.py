@@ -28,6 +28,7 @@ class Suspend:
     def getSuspend(self, secID):
         pro = ts.pro_api()
         data = pro.suspend(ts_code=secID, suspend_date='', resume_date='', fiedls='')
+        print data
         if data.to_dict('records'):
             return data.to_dict('records')[0]
         return False
