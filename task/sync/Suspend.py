@@ -18,8 +18,8 @@ class Suspend:
     #20:复牌
     def __init__(self):
         ts.set_token('9caf3d505f4f4b5cefd16f25c533e1cae081773442c216888678ddee')
-        self._endDate = time.strftime('%Y%m%d',time.localtime(time.time()))
-        #self._endDate = '20181103'
+        #self._endDate = time.strftime('%Y%m%d',time.localtime(time.time()))
+        self._endDate = '20181102'
         #self.secID = secID
         #self.secCode = secCode
         #self.secName = secName
@@ -67,7 +67,10 @@ class Suspend:
             return False
 
         for i in range(0, len(suspend)):
-            suSql = """SELECT * FROM suspend WHERE sec_id = '%s' AND suspend_date = '%s' AND suspend_type = '%d'""" % (suspend[i]['ts_code'], self._endDate, 10)
+            sup = self.getSuspend(suspend[i]['ts_code'])
+            if (sup == False or sup['suspend_date'] != self._endDate):
+                continue
+            suSql = """SELECT * FROM suspend WHERE sec_id = '%s' AND suspend_date = '%s' AND suspend_type = '%d'""" % (suspend[i]['ts_code'], Date.getDateAmend(self._endDate), 10)
             query = stock_db.fetch_one(suSql)
             if query == None:
                 stock = Stock.getStockInfo(suspend[i]['ts_code'])
@@ -80,7 +83,10 @@ class Suspend:
             return False
 
         for i in range(0, len(resume)):
-            reSql = """SELECT * FROM suspend WHERE sec_id = '%s' AND suspend_date = '%s' AND suspend_type = '%d'""" % (resume[i]['ts_code'], self._endDate, 20)
+            sup = self.getSuspend(suspend[i]['ts_code'])
+            if (sup == False or sup['resume_date'] != self._endDate):
+                continue
+            reSql = """SELECT * FROM suspend WHERE sec_id = '%s' AND suspend_date = '%s' AND suspend_type = '%d'""" % (resume[i]['ts_code'], Date.getDateAmend(self._endDate), 20)
             query = stock_db.fetch_one(reSql)
             if query == None:
                 stock = Stock.getStockInfo(suspend[i]['ts_code'])
