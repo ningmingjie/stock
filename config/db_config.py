@@ -49,6 +49,7 @@ class DB(object):
             try:
                 self._cursor.execute(sql)
                 res = self._cursor.fetchall()
+                self.close()
             except Exception, data:
                 res = False
                 #self._logger.warn("query database exception, %s" % data)
@@ -61,6 +62,7 @@ class DB(object):
             try:
                 self._cursor.execute(sql)
                 res = self._cursor.fetchone()
+                self.close()
             except Exception, data:
                 res = False
                 #self._logger.warn("query database exception, %s" % data)
@@ -74,6 +76,7 @@ class DB(object):
                 self._cursor.execute(sql)
                 self._conn.commit()
                 flag = True
+                self.close()
             except Exception, data:
                 flag = False
                 #self._logger.warn("update database exception, %s" % data)

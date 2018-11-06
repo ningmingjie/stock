@@ -18,8 +18,8 @@ class Suspend:
     #20:复牌
     def __init__(self):
         ts.set_token('9caf3d505f4f4b5cefd16f25c533e1cae081773442c216888678ddee')
-        #self._endDate = time.strftime('%Y%m%d',time.localtime(time.time()))
-        self._endDate = '20181103'
+        self._endDate = time.strftime('%Y%m%d',time.localtime(time.time()))
+        #self._endDate = '20181103'
         #self.secID = secID
         #self.secCode = secCode
         #self.secName = secName
