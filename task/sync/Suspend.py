@@ -68,7 +68,7 @@ class Suspend:
 
         for i in range(0, len(suspend)):
             sup = self.getSuspend(suspend[i]['ts_code'])
-            if (sup == False or sup['suspend_date'] != self._endDate):
+            if sup['suspend_date'] != self._endDate or sup == False:
                 continue
             suSql = """SELECT * FROM suspend WHERE sec_id = '%s' AND suspend_date = '%s' AND suspend_type = '%d'""" % (suspend[i]['ts_code'], Date.getDateAmend(self._endDate), 10)
             query = stock_db.fetch_one(suSql)
@@ -84,7 +84,7 @@ class Suspend:
 
         for i in range(0, len(resume)):
             sup = self.getSuspend(suspend[i]['ts_code'])
-            if (sup == False or sup['resume_date'] != self._endDate):
+            if sup['resume_date'] != self._endDate or sup == False:
                 continue
             reSql = """SELECT * FROM suspend WHERE sec_id = '%s' AND suspend_date = '%s' AND suspend_type = '%d'""" % (resume[i]['ts_code'], Date.getDateAmend(self._endDate), 20)
             query = stock_db.fetch_one(reSql)
