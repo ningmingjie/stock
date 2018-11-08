@@ -19,7 +19,7 @@ class Suspen:
 
     def getSoup(self, page):
         response = requests.get(
-            url = "http://datainterface.eastmoney.com/EM_DataCenter/JS.aspx?type=FD&sty=SRB&st=0&sr=-1&p='%d'&ps=50&js=var%%20RxRHbeMB={pages:(pc),data:[(x)]}&mkt=1&fd='%s'&rt=51383288" % (page, self._date),
+            url = "http://datainterface.eastmoney.com/EM_DataCenter/JS.aspx?type=FD&sty=SRB&st=0&sr=-1&p=%d&ps=50&js=var%%20RxRHbeMB={pages:(pc),data:[(x)]}&mkt=1&fd=%s&rt=51383288" % (page, self._date),
             headers = self.headers
         )
         return BeautifulSoup(response.text, features='lxml')
