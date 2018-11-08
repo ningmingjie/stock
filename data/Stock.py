@@ -83,12 +83,11 @@ class Stock:
         #返回字典类型
         return data.to_dict('records')
 
-    #获取停复牌信息
-    def getSuspend(self, secID):
-        pro = ts.pro_api()
-        data = pro.suspend(ts_code=secID, suspend_date='', resume_date='', fiedls='')
-        data.reset_index(inplace=True)
-        print data.to_dict('records')[0]
+    @staticmethod
+    def getCodeStockInfo(secCode):
+        sql = """SELECT sec_id, sec_code, sec_name FROM stock_info WHERE sec_code = '%s'""" % (secCode)
+        query = stock_db.fetch_one(sql)
+        return query
 
     @staticmethod
     def getStockInfo(secID):
