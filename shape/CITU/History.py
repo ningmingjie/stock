@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 import redis
 import time
+import re
 from config.db_config import stock_db
 
 reload(sys)
@@ -14,9 +15,10 @@ sys.setdefaultencoding('utf-8')
 
 class History:
 
-    def __init__(self, secCode, secName):
+    def __init__(self, secCode, secName, secID):
         self.secCode = secCode
         self.secName = secName
+        self.secID = secID
 
     """
     获取历史行情数据
@@ -119,8 +121,8 @@ class Stock:
 sk = ["601518-吉林高速"]
 for tk in sk:
     try:
-        sec = tk.partition("-")
-        history = History(sec[0], sec[2])
+        sec = re.split("-", tk)
+        history = History(sec[0], sec[1], sec[2])
         res = history.handel('2016-01-01', '2018-10-30', 10)
         print sec[2]
     except:

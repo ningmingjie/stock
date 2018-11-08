@@ -1,116 +1,64 @@
-#!/usr/bin/env python
-# -*- coding:utf-8 -*-
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+import requests
+import re
 import sys
 sys.path.append('/data/www/stock/')
-import tushare as ts
-import pandas as pd
 import time
-import re
 from data.Stock import Stock
 from config.db_config import stock_db
 from data.Date import Date
 
+from bs4 import BeautifulSoup
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
 class Suspend:
-    #10:停牌
-    #20:复牌
+
     def __init__(self):
-        ts.set_token('9caf3d505f4f4b5cefd16f25c533e1cae081773442c216888678ddee')
-        #self._endDate = time.strftime('%Y%m%d',time.localtime(time.time()))
-        self._endDate = '20181102'
-        #self.secID = secID
-        #self.secCode = secCode
-        #self.secName = secName
+        self.headers = {'content-type': 'application/json',
+                   'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:22.0) Gecko/20100101 Firefox/22.0'}
+        self._date = time.strftime('%Y-%m-%d',time.localtime(time.time()))
 
-    #获取停复牌信息
-    def getSuspend(self, secID):
-        pro = ts.pro_api()
-        data = pro.suspend(ts_code=secID, suspend_date='', resume_date='', fiedls='')
-        print data
-        if data.to_dict('records'):
-            return data.to_dict('records')[0]
-        return False
+    #获取东财停复牌数据
+    def getSoup(self, page):
+        response = requests.get(
+            url = "http://datainterface.eastmoney.com/EM_DataCenter/JS.aspx?type=FD&sty=SRB&st=0&sr=-1&p=%d&ps=50&js=var%%20RxRHbeMB={pages:(pc),data:[(x)]}&mkt=1&fd=%s&rt=51383288" % (page, self._date),
+            headers = self.headers
+        )
+        return BeautifulSoup(response.text, features='lxml')
 
-    # 获取某日停复牌信息
-    def getDaySuspend(self, suspendDate, resumeDate):
-        pro = ts.pro_api()
-        data = pro.query('suspend', ts_code='', suspend_date=suspendDate, resume_date=resumeDate, fiedls='')
-        if data.to_dict('records'):
-            return data.to_dict('records')
-        return False
+    #数据处理
+    def getData(self, page):
+        data = self.getSoup(page)
+        pattern = re.compile(r'[[](.*?)[]]', re.S)
+        data = re.findall(pattern, bytes(data))
 
-    #写入数据
-    def insertHistorySuspend(self, secID):
-        suspend = self.getSuspend(secID)
-        if suspend == False:
+        if len(data) == 0:
             return False
-        _date = Date.getDateAmend(suspend['suspend_date'])
-
-        suspendSql = """INSERT INTO suspend (sec_id, sec_code, sec_name, suspend_type, suspend_date, suspend_reason, created_at, updated_at) VALUES ('%s', '%s', \
-'%s', '%d', '%s', '%s', '%d', '%d')""" % (secID, self.secCode, self.secName, 10, _date, suspend['suspend_reason'], int(time.time()), int(time.time()))
-        stock_db.insertData(suspendSql)
-
-        if suspend['resume_date'] != None:
-            _dateRes = Date.getDateAmend(suspend['resume_date'])
-            resumeSql = """INSERT INTO suspend (sec_id, sec_code, sec_name, suspend_type, suspend_date, suspend_reason, created_at, updated_at) VALUES ('%s', '%s', \
-            '%s', '%d', '%s', '%s', '%d', '%d')""" % (
-            secID, self.secCode, self.secName, 20, _dateRes, suspend['suspend_reason'], int(time.time()), int(time.time()))
-            stock_db.insertData(resumeSql)
-
-        return True
-
-    #写入数据
-    def insertSuspend(self):
-        suspend = self.getDaySuspend(self._endDate, '')
-        if suspend == False:
-            return False
-
-        for i in range(0, len(suspend)):
-            sup = self.getSuspend(suspend[i]['ts_code'])
-            if sup == False:
+        pattern = re.compile(r'"(.*?)"', re.S)
+        data = re.findall(pattern, data[0])
+        for i in range(len(data)):
+            val = re.split(",", data[i])
+            stock = Stock.getCodeStockInfo(val[0])
+            if stock == None:
                 continue
-            if sup['suspend_date'] != None:
-                if int(sup['suspend_date']) < int(self._endDate):
-                    continue
-
-            suSql = """SELECT * FROM suspend WHERE sec_id = '%s' AND suspend_date = '%s' AND suspend_type = '%d'""" % (suspend[i]['ts_code'], Date.getDateAmend(self._endDate), 10)
-            query = stock_db.fetch_one(suSql)
-            if query == None:
-                stock = Stock.getStockInfo(suspend[i]['ts_code'])
-                suspendSql = """INSERT INTO suspend (sec_id, sec_code, sec_name, suspend_type, suspend_date, suspend_reason, created_at, updated_at) VALUES ('%s', '%s', \
-'%s', '%d', '%s', '%s', '%d', '%d')""" % (stock['sec_id'], stock['sec_code'], stock['sec_name'], 10, Date.getDateAmend(self._endDate), suspend[i]['suspend_reason'],int(time.time()),int(time.time()))
-                stock_db.insertData(suspendSql)
-
-        resume = self.getDaySuspend('', self._endDate)
-        if resume == False:
-            return False
-
-        for i in range(0, len(resume)):
-            sup = self.getSuspend(suspend[i]['ts_code'])
-            if sup == False:
-                continue
-            if sup['resume_date'] != None:
-                if int(sup['resume_date']) < int(self._endDate):
-                    continue
-            reSql = """SELECT * FROM suspend WHERE sec_id = '%s' AND suspend_date = '%s' AND suspend_type = '%d'""" % (resume[i]['ts_code'], Date.getDateAmend(self._endDate), 20)
+            reSql = """SELECT * FROM suspend WHERE sec_code = '%s' AND suspend_date = '%s'""" % (stock['sec_code'], Date.getDate(val[2]))
             query = stock_db.fetch_one(reSql)
-            if query == None:
-                stock = Stock.getStockInfo(suspend[i]['ts_code'])
-                resumeSql = """INSERT INTO suspend (sec_id, sec_code, sec_name, suspend_type, suspend_date, suspend_reason, created_at, updated_at) VALUES ('%s', '%s', \
-'%s', '%d', '%s', '%s', '%d', '%d')""" % (stock['sec_id'], stock['sec_code'], stock['sec_name'], 20, Date.getDateAmend(self._endDate), resume[i]['suspend_reason'], int(time.time()), int(time.time()))
-                stock_db.insertData(resumeSql)
-
+            if query != None:
+                upSql = """UPDATE suspend SET suspend_type = '%d'  WHERE sec_code = '%s' AND suspend_date = '%s'""" % (10, stock['sec_code'], Date.getDate(val[2]))
+                stock_db.update(upSql)
+                continue
+            sql = """INSERT INTO suspend (sec_id, sec_code, sec_name, suspend_type, suspend_date, suspend_reason, created_at, updated_at) VALUES ('%s', '%s', '%s', '%d', '%s', \
+'%s', '%d', '%d')""" % (stock['sec_id'], stock['sec_code'], stock['sec_name'], 10, Date.getDate(val[2]), val[5],int(time.time()), int(time.time()))
+            stock_db.insertData(sql)
         return True
-
-
-class getStock:
-    def getStockAll(self):
-        with open('/data/share/loudou/stock/stockTicker.txt', 'r') as f:
-            lines = [line.strip() for line in f.readlines()]
-        return lines
-
 
 suspend = Suspend()
-suspend.getSuspend('000540.SZ')
+sql = """UPDATE suspend SET suspend_type = '%d'""" % (20)
+stock_db.update(sql)
+for i in range(1, 5):
+    res = suspend.getData(i)
+    if res == False:
+        exit()
