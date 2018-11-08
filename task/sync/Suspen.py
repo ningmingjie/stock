@@ -5,6 +5,9 @@ import re
 import sys
 import MySQLdb
 import time
+from data.Stock import Stock
+from config.db_config import stock_db
+from data.Date import Date
 
 from bs4 import BeautifulSoup
 reload(sys)
@@ -26,7 +29,21 @@ class Suspen:
 
     def getData(self):
         data = self.getSoup(1)
-        print data
+        pattern = re.compile(r'[[](.*?)[]]', re.S)
+        data = re.findall(pattern, data)
+        if len(data) == 0:
+            return True
+        pattern = re.compile(r'"(.*?)"', re.S)
+        data = re.findall(pattern, data[0])
+        for i in range(len(data)):
+            val = re.split(",", data[i])
+            self.insertData(val)
+
+    def insertData(self, query):
+        stock = Stock.getStockInfo(query[0])
+        sql = """INSERT INTO suspend (sec_id, sec_code, sec_name, suspend_type, suspend_date, suspend_reason, created_at, updated_at) VALUES ('%s', '%s', \
+'%s', '%d', '%s', '%s', '%d', '%d')""" % (stock['sec_id'], stock['sec_code'], stock['sec_name'], 10, Date.getDate(query[2]), query[5], int(time.time()), int(time.time()))
+        stock_db.insertData(sql)
 
 
 suspen = Suspen()

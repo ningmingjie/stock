@@ -15,3 +15,7 @@ class Date:
     @staticmethod
     def getDateAmend(date):
         return time.strftime('%Y-%m-%d', time.strptime(date, "%Y%m%d"))
+
+    @staticmethod
+    def getDate(date):
+        return time.strftime('%Y-%m-%d', time.strptime(date, "%Y-%m-%d %H:%i:%s"))
