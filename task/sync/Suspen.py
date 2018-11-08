@@ -38,7 +38,7 @@ class Suspen:
             return False
         pattern = re.compile(r'"(.*?)"', re.S)
         data = re.findall(pattern, data[0])
-        sqlUp = """UPDATE suspend SET suspend_type = '%d'""" % (20)
+        sqlUp = """UPDATE suspend SET suspend_type = '%d'""" % (30)
         stock_db.update(sqlUp)
         for i in range(len(data)):
             val = re.split(",", data[i])
