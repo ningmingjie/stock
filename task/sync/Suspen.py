@@ -41,9 +41,11 @@ class Suspen:
             self.insertData(val)
 
     def insertData(self, query):
+        print query
         stock = Stock.getStockInfo(query[0])
-        sql = """INSERT INTO suspend (sec_id, sec_code, sec_name, suspend_type, suspend_date, suspend_reason, created_at, updated_at) VALUES ('%s', '%s', \
-'%s', '%d', '%s', '%s', '%d', '%d')""" % (stock['sec_id'], stock['sec_code'], stock['sec_name'], 10, Date.getDate(query[2]), query[5], int(time.time()), int(time.time()))
+        print stock
+        sql = """INSERT INTO suspend (sec_id, sec_code, sec_name, suspend_type, suspend_date, suspend_reason, created_at, updated_at) VALUES ('%s', '%s', '%s', '%d', '%s', \
+'%s', '%d', '%d')""" % (stock['sec_id'], stock['sec_code'], stock['sec_name'], 10, Date.getDate(query[2]), query[5], int(time.time()), int(time.time()))
         stock_db.insertData(sql)
 
 
