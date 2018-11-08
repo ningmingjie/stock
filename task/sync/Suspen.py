@@ -31,7 +31,7 @@ class Suspen:
     def getData(self):
         data = self.getSoup(1)
         pattern = re.compile(r'[[](.*?)[]]', re.S)
-        data = re.findall(pattern, "'"+data+"'")
+        data = re.findall(pattern, bytes(data))
         if len(data) == 0:
             return True
         pattern = re.compile(r'"(.*?)"', re.S)
