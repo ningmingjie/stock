@@ -1,9 +1,10 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
+
 import requests
 import re
 import sys
-import MySQLdb
+sys.path.append('/data/www/stock/')
 import time
 from data.Stock import Stock
 from config.db_config import stock_db
