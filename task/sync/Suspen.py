@@ -39,7 +39,7 @@ class Suspen:
             return False
         pattern = re.compile(r'"(.*?)"', re.S)
         data = re.findall(pattern, data[0])
-        sqlUp = """UPDATE suspend SET suspend_type = '%d'""" % (20)
+        sqlUp = """UPDATE suspend SET suspend_type = '%d'""" % (30)
         stock_db.update(sqlUp)
         for i in range(len(data)):
             val = re.split(",", data[i])
@@ -49,7 +49,7 @@ class Suspen:
             reSql = """SELECT * FROM suspend WHERE sec_code = '%s' AND suspend_date = '%s'""" % (stock['sec_code'], Date.getDate(val[2]))
             query = stock_db.fetch_one(reSql)
             if query != None:
-                upSql = """UPDATE suspend SET suspend_type = '%d'  WHERE sec_code = '%s' AND suspend_date = '%s'""" % (10, stock['sec_code'], Date.getDate(val[2]))
+                upSql = """UPDATE suspend SET suspend_type = '%d'  WHERE sec_code = '%s' AND suspend_date = '%s'""" % (110, stock['sec_code'], Date.getDate(val[2]))
                 stock_db.update(upSql)
                 continue
             sql = """INSERT INTO suspend (sec_id, sec_code, sec_name, suspend_type, suspend_date, suspend_reason, created_at, updated_at) VALUES ('%s', '%s', '%s', '%d', '%s', \
