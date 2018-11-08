@@ -18,4 +18,4 @@ class Date:
 
     @staticmethod
     def getDate(date):
-        return time.strftime('%Y-%m-%d', time.strptime(date, "%Y-%m-%d %H:%m:%s"))
+        return time.strftime('%Y-%m-%d', time.strptime(date, "%Y-%m-%d %H:%M:%S"))
