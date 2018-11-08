@@ -21,6 +21,7 @@ class Suspen:
                    'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:22.0) Gecko/20100101 Firefox/22.0'}
         self._date = time.strftime('%Y-%m-%d',time.localtime(time.time()))
 
+    #获取东财停复牌数据
     def getSoup(self, page):
         response = requests.get(
             url = "http://datainterface.eastmoney.com/EM_DataCenter/JS.aspx?type=FD&sty=SRB&st=0&sr=-1&p=%d&ps=50&js=var%%20RxRHbeMB={pages:(pc),data:[(x)]}&mkt=1&fd=%s&rt=51383288" % (page, self._date),
@@ -28,26 +29,35 @@ class Suspen:
         )
         return BeautifulSoup(response.text, features='lxml')
 
-    def getData(self):
-        data = self.getSoup(1)
+    #数据处理
+    def getData(self, page):
+        data = self.getSoup(page)
         pattern = re.compile(r'[[](.*?)[]]', re.S)
         data = re.findall(pattern, bytes(data))
         if len(data) == 0:
-            return True
+            return False
         pattern = re.compile(r'"(.*?)"', re.S)
         data = re.findall(pattern, data[0])
+        sqlUp = """UPDATE suspend SET suspend_type = '%d'""" % (20)
+        stock_db.update(sqlUp)
         for i in range(len(data)):
             val = re.split(",", data[i])
-            self.insertData(val)
-
-    def insertData(self, query):
-        stock = Stock.getCodeStockInfo(query[0])
-        if stock == None:
-            return False
-        sql = """INSERT INTO suspend (sec_id, sec_code, sec_name, suspend_type, suspend_date, suspend_reason, created_at, updated_at) VALUES ('%s', '%s', '%s', '%d', '%s', \
-'%s', '%d', '%d')""" % (stock['sec_id'], stock['sec_code'], stock['sec_name'], 10, Date.getDate(query[2]), query[5], int(time.time()), int(time.time()))
-        stock_db.insertData(sql)
-
+            stock = Stock.getCodeStockInfo(val[0])
+            if stock == None:
+                continue
+            reSql = """SELECT * FROM suspend WHERE sec_code = '%s' AND suspend_date = '%s'""" % (stock['sec_code'], Date.getDate(val[2]))
+            query = stock_db.fetch_one(reSql)
+            if query != None:
+                upSql = """UPDATE suspend SET suspend_type = '%d'  WHERE sec_code = '%s' AND suspend_date = '%s'""" % (10, stock['sec_code'], Date.getDate(val[2]))
+                stock_db.update(upSql)
+                continue
+            sql = """INSERT INTO suspend (sec_id, sec_code, sec_name, suspend_type, suspend_date, suspend_reason, created_at, updated_at) VALUES ('%s', '%s', '%s', '%d', '%s', \
+'%s', '%d', '%d')""" % (stock['sec_id'], stock['sec_code'], stock['sec_name'], 10, Date.getDate(val[2]), val[5],int(time.time()), int(time.time()))
+            stock_db.insertData(sql)
+        return True
 
 suspen = Suspen()
-suspen.getData()
+for i in range(0, 10):
+    res = suspen.getData(i)
+    if res == False:
+        exit()
