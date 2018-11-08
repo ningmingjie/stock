@@ -34,11 +34,12 @@ class Suspen:
         data = self.getSoup(page)
         pattern = re.compile(r'[[](.*?)[]]', re.S)
         data = re.findall(pattern, bytes(data))
+        print len(data)
         if len(data) == 0:
             return False
         pattern = re.compile(r'"(.*?)"', re.S)
         data = re.findall(pattern, data[0])
-        sqlUp = """UPDATE suspend SET suspend_type = '%d'""" % (30)
+        sqlUp = """UPDATE suspend SET suspend_type = '%d'""" % (20)
         stock_db.update(sqlUp)
         for i in range(len(data)):
             val = re.split(",", data[i])
