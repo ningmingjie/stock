@@ -101,6 +101,7 @@ high_price, total_income, total_price, best_position, total_position, win_rate, 
 '%s', '%s', '%d', '%s', '%s', '%f', '%f', '%f', '%f', '%f', '%f', '%f', '%d', '%d', '%f', '%d',  '%d', '%d')""" % ('CITU', self.secID, self.secCode, self.secName, \
 is_succee, appearDate, castDate, data[i-1]['close'],morrowIncome, morrowPrice, highIncome, highPrice, totalIncome, totalPrice, highPosition, periods, winRate, stage, int(time.time()), int(time.time()))
             stock_db.insertData(sql)
+            print 4
             id = stock_db.getLastId()
 
             if id > 0:

@@ -91,8 +91,11 @@ class DB(object):
                 self._cursor.execute(sql)
                 self._conn.commit()
                 self.close()
+                print 1
             except Exception, data:
+                print 2
                 self._conn.rollback()
+        print 3
         return True
 
     def getLastId(self):
