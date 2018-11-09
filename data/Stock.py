@@ -83,6 +83,25 @@ class Stock:
         #返回字典类型
         return data.to_dict('records')
 
+    """
+    获取近两日行情数据
+    startDay ：开始时间
+    endDay ：结束时间
+    """
+
+    @staticmethod
+    def getStockCal(self, secCode, startDate, endDate):
+        #获取上个交易日期
+        data = ts.get_hist_data(self.secCode, startDate, endDate)
+        data.reset_index(inplace=True)
+        #索引重新命名
+        data.rename(
+            columns={'date': 'date', 'open': 'open', 'high': 'high', 'close': 'close', 'low': 'low', 'volume': 'volume',
+                     'price_change': 'price_change', 'p_change': 'p_change', 'ma5': 'ma5', 'ma10': 'ma10',
+                     'ma20': 'ma20', 'v_ma5': 'v_ma5', 'v_ma10': 'v_ma10', 'v_ma20': 'v_ma20'}, inplace=True)
+        #返回字典类型
+        return data.to_dict('records')
+
     @staticmethod
     def getCodeStockInfo(secCode):
         sql = """SELECT sec_id, sec_code, sec_name FROM stock_info WHERE sec_code = '%s'""" % (secCode)

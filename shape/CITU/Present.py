@@ -6,6 +6,7 @@ import tushare as ts
 import numpy as np
 import pandas as pd
 import time
+import re
 from config.db_config import stock_db
 
 reload(sys)
@@ -13,9 +14,10 @@ sys.setdefaultencoding('utf-8')
 
 class Present:
 
-    def __init__(self, secCode, secName):
+    def __init__(self, secCode, secName, secID):
         self.secCode = secCode
         self.secName = secName
+        self.secID = secID
         self._date = time.strftime('%Y%m%d', time.localtime(time.time()))
 
     """
@@ -70,10 +72,10 @@ class Present:
             totalPrice = 0
             stage = 200
 
-            sql = """INSERT INTO shape (shape_key, sec_code, sec_name, is_succee, appear_date, cast_date, morrow_income, morrow_price, high_income, \
-high_price, total_income, total_price, best_position, total_position, win_rate, stage, created_at, updated_at) VALUES ('%s', \
-'%s', '%s', '%d', '%s', '%s', '%f', '%f', '%f', '%f', '%f', '%f', '%d', '%d', '%f', '%d',  '%d', '%d')""" % ('CITU', self.secCode, self.secName, \
-is_succee, appearDate, castDate, morrowIncome, morrowPrice, highIncome, highPrice, totalIncome, totalPrice, highPosition,1, winRate, stage, int(time.time()), int(time.time()))
+            sql = """INSERT INTO shape (shape_key, sec_id, sec_code, sec_name, is_succee, appear_date, cast_date, join_price, morrow_income, morrow_price, high_income, \
+high_price, total_income, total_price, best_position, total_position, win_rate, stage, created_at, updated_at) VALUES ('%s', '%s', \
+'%s', '%s', '%d', '%s', '%s', '%f', '%f', '%f', '%f', '%f', '%f', '%f', '%d', '%d', '%f', '%d',  '%d', '%d')""" % ('CITU', self.secID, self.secCode, self.secName, \
+is_succee, appearDate, castDate, data[i-1]['close'], morrowIncome, morrowPrice, highIncome, highPrice, totalIncome, totalPrice, highPosition,1, winRate, stage, int(time.time()), int(time.time()))
             stock_db.insertData(sql)
             id = stock_db.getLastId()
 
@@ -93,12 +95,12 @@ class Stock:
 
 stock = Stock()
 sk = stock.getStockAll()
-#sk = ["601518-吉林高速"]
+#sk = ["601518-吉林高速-601518.SH"]
 for tk in sk:
     try:
-        sec = tk.partition("-")
-        history = Present(sec[0], sec[2])
-        res = history.handel()
+        sec = re.split("-", tk)
+        present = Present(sec[0], sec[1], sec[2])
+        res = present.handel()
         print sec[2]
     except:
         continue
