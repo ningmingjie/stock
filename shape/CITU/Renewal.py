@@ -86,5 +86,5 @@ for tk in sk:
         renewal = Renewal(sec[0], sec[1], sec[2])
         res = renewal.getOperationStock()
         print sec[2]
-    except:
-        continue
+    except Exception, data:
+        print data
