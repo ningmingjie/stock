@@ -90,9 +90,9 @@ class Stock:
     """
 
     @staticmethod
-    def getStockCal(self, secCode, startDate, endDate):
+    def getStockCal(secCode, startDate, endDate):
         #获取上个交易日期
-        data = ts.get_hist_data(self.secCode, startDate, endDate)
+        data = ts.get_hist_data(secCode, startDate, endDate)
         data.reset_index(inplace=True)
         #索引重新命名
         data.rename(
