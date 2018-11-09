@@ -28,6 +28,7 @@ class Renewal:
     """
     def getOperationStock(self):
         sql = """SELECT * FROM shape WHERE stage = '%d' AND appear_date != '%s'  deleted_at IS NULL""" % (200, Date.getDateAmend(self._date))
+        print sql
         return stock_db.fetch_all(sql)
 
     """
@@ -35,7 +36,7 @@ class Renewal:
     """
     def handel(self):
         data = self.getOperationStock()
-
+        print data
         for i in range(0, len(data)):
             cal = Stock.getStockCal(data[i]['sec_code'], Date.getDateAmend(self._date), Date.getDateAmend(self._date))
             print cal
