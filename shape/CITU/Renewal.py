@@ -59,6 +59,7 @@ class Renewal:
                     winRate = rtCount / float(count['count'])
                 count = """SELECT COUNT(*) as count FROM shape WHERE sec_code = %s AND deleted_at IS NULL""" % (data[i]['sec_code'])
                 count = stock_db.fetch_one(count)
+                print count
                 morrowIncome = income
                 morrowPrice = cal[0]['close']
 
