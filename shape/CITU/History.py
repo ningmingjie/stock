@@ -101,14 +101,16 @@ high_price, total_income, total_price, best_position, total_position, win_rate, 
 '%s', '%s', '%d', '%s', '%s', '%f', '%f', '%f', '%f', '%f', '%f', '%f', '%d', '%d', '%f', '%d',  '%d', '%d')""" % ('CITU', self.secID, self.secCode, self.secName, \
 is_succee, appearDate, castDate, data[i-1]['close'],morrowIncome, morrowPrice, highIncome, highPrice, totalIncome, totalPrice, highPosition, periods, winRate, stage, int(time.time()), int(time.time()))
             stock_db.insertData(sql)
-            print 4
-            id = stock_db.getLastId()
 
+            id = stock_db.getLastId()
+            print id
             if id > 0:
                 for k in range(0, 2):
                     shapeDetail = """INSERT INTO shape_detail (shape_id, shape_date, shape_price, shape_income, created_at, updated_at) VALUES ('%d', '%s','%f', '%f', '%d', '%d')""" % ( \
                         id, data[i-k]['date'], data[i-k]['close'], data[i-k]['p_change']/100, int(time.time()), int(time.time()))
                     stock_db.insertData(shapeDetail)
+            print 5
+        print 7
         return True
 
 class Stock:
