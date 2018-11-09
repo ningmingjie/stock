@@ -100,7 +100,7 @@ class DB(object):
             self._cursor.execute("select last_insert_id();")
             data = self._cursor.fetchall()
             print int(self._cursor.lastrowid)
-            print int(self._conn.insert_id)
+            print int(self._conn.insert_id())
             return data[0][0]
         except Exception, data:
             return data
