@@ -92,7 +92,6 @@ class DB(object):
                 self._cursor.execute(sql)
                 self._conn.commit()
                 id = int(self._cursor.lastrowid())
-                self.close()
             except Exception, data:
                 self._conn.rollback()
                 print data
