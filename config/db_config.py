@@ -91,17 +91,18 @@ class DB(object):
                 self._cursor.execute(sql)
                 self._conn.commit()
                 self.close()
-                print 1
             except Exception, data:
-                print 2
                 self._conn.rollback()
-        print 3
         return True
 
     def getLastId(self):
-        self._cursor.execute("select last_insert_id();")
-        data = self._cursor.fetchall();
-        return data[0][0]
+        try:
+            self._cursor.execute("select last_insert_id();")
+            data = self._cursor.fetchall();
+            return data[0][0]
+        except Exception, data:
+            print data
+
 
     # 关闭数据库连接
     def close(self):
