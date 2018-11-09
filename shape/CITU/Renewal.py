@@ -52,7 +52,7 @@ class Renewal:
 
             highIncome = data[i]['high_income']
             highPrice = data[i]['high_price']
-            highPosition = data[i]['high_position']
+            highPosition = data[i]['best_position']
             if highIncome < income:
                 highIncome = income
                 highPrice = cal[0]['close']
