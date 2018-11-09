@@ -9,7 +9,7 @@ import time
 import re
 from config.db_config import stock_db
 from data.Date import Date
-from data.Stock import Stock
+from data.Stock import Stock as StockUD
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -37,7 +37,7 @@ class Renewal:
         data = self.getOperationStock()
 
         for i in range(0, len(data)):
-            cal = Stock.getStockCal(data[i]['sec_code'], Date.getDateAmend(self._date), Date.getDateAmend(self._date))
+            cal = StockUD.getStockCal(data[i]['sec_code'], Date.getDateAmend(self._date), Date.getDateAmend(self._date))
 
             if len(cal) <= 0:
                 continue
