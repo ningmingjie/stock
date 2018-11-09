@@ -47,7 +47,7 @@ class Renewal:
             winRate = data[i]['win_rate']
             castDate = data[i]['cast_date']
             income = (cal[0]['close'] - data[i]['join_price']) / data[i]['join_price']
-            is_succee = 0
+            is_succee = data[i]['is_succee']
             if data[i]['total_position'] == 1:
                 if cal[0]['close'] > data[i]['join_price']:
                     is_succee = 20
