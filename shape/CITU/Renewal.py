@@ -35,10 +35,10 @@ class Renewal:
     """
     def handel(self):
         data = self.getOperationStock()
-        print data
+
         for i in range(0, len(data)):
             cal = Stock.getStockCal(data[i]['sec_code'], Date.getDateAmend(self._date), Date.getDateAmend(self._date))
-            print cal
+
             if len(cal) <= 0:
                 continue
             morrowIncome = data[i]['morrow_income']
@@ -84,7 +84,7 @@ for tk in sk:
     try:
         sec = re.split("-", tk)
         renewal = Renewal(sec[0], sec[1], sec[2])
-        res = renewal.getOperationStock()
+        res = renewal.handel()
         print sec[2]
     except Exception, data:
         print data
