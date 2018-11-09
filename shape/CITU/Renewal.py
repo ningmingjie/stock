@@ -46,7 +46,14 @@ class Renewal:
             winRate = data[i]['win_rate']
             castDate = data[i]['cast_date']
             income = (cal[0]['close'] - data[i]['join_price']) / data[i]['join_price']
-            if data[i]['total_position'] == 0:
+            if data[i]['total_position'] == 1:
+                if cal[0]['close'] > data[i]['join_price']:
+                    is_succee = 20
+                else:
+                    is_succee = 10
+                count = """SELECT COUNT(*) FROM shape WHERE sec_code = %d AND deleted_at IS NULL""" % (data[i]['sec_code'])
+                count = stock_db.fetch_one(count)
+                print count
                 morrowIncome = income
                 morrowPrice = cal[0]['close']
 
