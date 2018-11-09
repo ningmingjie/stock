@@ -90,6 +90,7 @@ class DB(object):
             try:
                 self._cursor.execute(sql)
                 self._conn.commit()
+                self.close()
             except Exception, data:
                 self._conn.rollback()
         return True
@@ -109,6 +110,7 @@ class DB(object):
                     self._conn.close()
             except Exception, data:
                 return False
+        return True
 
 stock_db = DB(
     host="172.26.202.108",
