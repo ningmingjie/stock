@@ -99,6 +99,7 @@ class DB(object):
         try:
             self._cursor.execute("select last_insert_id();")
             data = self._cursor.fetchall()
+            print data
             return data[0][0]
         except Exception, data:
             return data
