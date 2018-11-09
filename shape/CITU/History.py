@@ -44,7 +44,6 @@ class History:
     def handel(self, startDay, endDay, period):
         data = self.getHistData(startDay, endDay)
         dataLen = len(data)
-        print dataLen
         succee = 0
         defeated = 0
         for i in range(dataLen-1, -1, -1):
@@ -63,8 +62,6 @@ class History:
             else:
                 defeated = defeated+1
                 is_succee = 10
-
-            print data[i-1]['date']
 
             morrowIncome = 0
             morrowPrice = 0
@@ -128,5 +125,5 @@ for tk in sk:
         history = History(sec[0], sec[1], sec[2])
         res = history.handel('2016-01-01', '2018-10-30', 10)
         print sec[2]
-    except:
-        continue
+    except Exception, data:
+        print data
