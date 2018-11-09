@@ -49,17 +49,17 @@ class Renewal:
             income = (cal[0]['close'] - data[i]['join_price']) / data[i]['join_price']
             is_succee = data[i]['is_succee']
             if data[i]['total_position'] == 1:
+                count = """SELECT COUNT(*) as ct FROM shape WHERE sec_code = %s AND deleted_at IS NULL""" % (data[i]['sec_code'])
+                count = stock_db.fetch_one(count)
                 if cal[0]['close'] > data[i]['join_price']:
                     is_succee = 20
-                    winRate = math.ceil(winRate*count['count'])+1 / float(count['count'])
+                    winRate = math.ceil(winRate*count['ct'])+1 / float(count['ct'])
                 else:
                     is_succee = 10
-                    rtCount = math.ceil(winRate * count['count'])
+                    rtCount = math.ceil(winRate * count['ct'])
                     rtCount = 0 if(rtCount-1<0) else rtCount-1
-                    winRate = rtCount / float(count['count'])
-                count = """SELECT COUNT(*) as count FROM shape WHERE sec_code = %s AND deleted_at IS NULL""" % (data[i]['sec_code'])
-                count = stock_db.fetch_one(count)
-                print count
+                    winRate = rtCount / float(count['ct'])
+
                 morrowIncome = income
                 morrowPrice = cal[0]['close']
 
