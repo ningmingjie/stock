@@ -68,6 +68,7 @@ class Renewal:
             upSql = """UPDATE shape SET cast_date = '%s' AND morrow_income = '%f' AND morrow_price = '%f' AND high_income = '%f' AND high_price = '%f' AND total_income = '%f' \
  AND total_price = '%f' AND best_position = '%d' AND total_position = '%d' AND win_rate = '%f' AND stage = '%d' AND updated_at = '%d' WHERE id = '%d'""" % (castDate, \
 morrowIncome, morrowPrice, highIncome, highPrice, totalIncome, totalPrice, highPosition, periods, winRate, stage, int(time.time()), data[i]['id'])
+            print upSql
             stock_db.update(upSql)
         return True
 
