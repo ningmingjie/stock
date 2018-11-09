@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 import time
 import re
+import math
 from config.db_config import stock_db
 from data.Date import Date
 from data.Stock import Stock as StockUD
@@ -49,11 +50,14 @@ class Renewal:
             if data[i]['total_position'] == 1:
                 if cal[0]['close'] > data[i]['join_price']:
                     is_succee = 20
+                    winRate = math.ceil(winRate*count['count'])+1 / float(count['count'])
                 else:
                     is_succee = 10
-                count = """SELECT COUNT(*) FROM shape WHERE sec_code = %s AND deleted_at IS NULL""" % (data[i]['sec_code'])
+                    rtCount = math.ceil(winRate * count['count'])
+                    rtCount = 0 if(rtCount-1<0) else rtCount-1
+                    winRate = rtCount / float(count['count'])
+                count = """SELECT COUNT(*) as count FROM shape WHERE sec_code = %s AND deleted_at IS NULL""" % (data[i]['sec_code'])
                 count = stock_db.fetch_one(count)
-                print count
                 morrowIncome = income
                 morrowPrice = cal[0]['close']
 
@@ -72,8 +76,8 @@ class Renewal:
             stage = 200
             if data[i]['total_position'] == 9:
                 stage = 300
-            upSql = """UPDATE shape SET cast_date = '%s', morrow_income = '%f', morrow_price = '%f', high_income = '%f', high_price = '%f', total_income = '%f' \
-, total_price = '%f', best_position = '%d', total_position = '%d', win_rate = '%f', stage = '%d', updated_at = '%d' WHERE id = '%d'""" % (castDate, \
+            upSql = """UPDATE shape SET is_succee = '%d' cast_date = '%s', morrow_income = '%f', morrow_price = '%f', high_income = '%f', high_price = '%f', total_income = '%f' \
+, total_price = '%f', best_position = '%d', total_position = '%d', win_rate = '%f', stage = '%d', updated_at = '%d' WHERE id = '%d'""" % (is_succee, castDate, \
 morrowIncome, morrowPrice, highIncome, highPrice, totalIncome, totalPrice, highPosition, periods, winRate, stage, int(time.time()), data[i]['id'])
 
             stock_db.update(upSql)
