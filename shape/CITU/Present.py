@@ -27,7 +27,7 @@ class Present:
     """
     def getHistData(self):
         #获取上个交易日期
-        data = ts.get_hist_data(self.secCode, '2018-10-29', '2018-10-30')
+        data = ts.get_hist_data(self.secCode, '2018-10-30', '2018-10-31')
         data.reset_index(inplace=True)
         #索引重新命名
         data.rename(
@@ -76,9 +76,8 @@ class Present:
 high_price, total_income, total_price, best_position, total_position, win_rate, stage, created_at, updated_at) VALUES ('%s', '%s', \
 '%s', '%s', '%d', '%s', '%s', '%f', '%f', '%f', '%f', '%f', '%f', '%f', '%d', '%d', '%f', '%d',  '%d', '%d')""" % ('CITU', self.secID, self.secCode, self.secName, \
 is_succee, appearDate, castDate, data[i-1]['close'], morrowIncome, morrowPrice, highIncome, highPrice, totalIncome, totalPrice, highPosition,1, winRate, stage, int(time.time()), int(time.time()))
-            stock_db.insertData(sql)
-            id = stock_db.getLastId()
 
+            id = stock_db.insertData(sql)
             if id > 0:
                 for k in range(0, 2):
                     shapeDetail = """INSERT INTO shape_detail (shape_id, shape_date, shape_price, shape_income, created_at, updated_at) VALUES ('%d', '%s','%f', '%f', '%d', '%d')""" % ( \
@@ -93,9 +92,9 @@ class Stock:
             lines = [line.strip() for line in f.readlines()]
         return lines
 
-stock = Stock()
-sk = stock.getStockAll()
-#sk = ["601518-吉林高速-601518.SH"]
+#stock = Stock()
+#sk = stock.getStockAll()
+sk = ["601518-吉林高速-601518.SH"]
 for tk in sk:
     try:
         sec = re.split("-", tk)

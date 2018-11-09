@@ -97,17 +97,6 @@ class DB(object):
                 self._conn.rollback()
         return id
 
-    def getLastId(self):
-        try:
-            self._cursor.execute("select last_insert_id();")
-            data = self._cursor.fetchall()
-            print int(self._cursor.lastrowid)
-            print int(self._conn.insert_id())
-            return data[0][0]
-        except Exception, data:
-            return data
-
-
     # 关闭数据库连接
     def close(self):
         if (self._conn):
