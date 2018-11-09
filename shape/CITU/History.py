@@ -126,4 +126,4 @@ for tk in sk:
         res = history.handel('2016-01-01', '2018-10-30', 10)
         print sec[2]
     except Exception, data:
-        print data
+        continue
