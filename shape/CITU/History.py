@@ -62,7 +62,41 @@ class History:
             else:
                 defeated = defeated+1
                 is_succee = 10
-            print data[i-1]['date']
+
+            morrowIncome = 0
+            morrowPrice = 0
+            castDate = '1970-01-01'
+            appearDate = data[i-1]['date']
+            highIncome = 0
+            highPrice = 0
+            highPosition = 0
+            winRate = 0
+            periods = period
+            totalIncome = 0
+            totalPrice = 0
+
+            stage = 300
+            if (i-period)<0:
+                stage = 200
+                periods = i
+
+            if i-1 != 0:
+                morrowIncome = (data[i-2]['close'] - data[i-1]['close']) / data[i-1]['close']
+                morrowPrice = data[i-2]['close']
+                castDate = data[i-1]['date']
+                for j in range(2, periods + 2):
+                    income = (data[i-j]['high'] - data[i-1]['close']) / data[i-1]['close']
+                    if income > highIncome:
+                        castDate = data[i-j]['date']
+                        highIncome = income
+                        highPrice = data[i-j]['high']
+                        highPosition = j-1
+
+                totalIncome = (data[i - (periods + 1)]['close'] - data[i-1]['close']) / data[i-1]['close']
+                totalPrice = data[i - (periods+1)]['close']
+                winRate = succee/float((succee + defeated))
+                print data[i - 1]['date']
+
 
 
 class Stock:
