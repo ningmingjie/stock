@@ -101,7 +101,7 @@ class DB(object):
             data = self._cursor.fetchall();
             return data[0][0]
         except Exception, data:
-            print data
+            return data
 
 
     # 关闭数据库连接

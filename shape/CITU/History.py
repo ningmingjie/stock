@@ -103,7 +103,7 @@ is_succee, appearDate, castDate, data[i-1]['close'],morrowIncome, morrowPrice, h
             stock_db.insertData(sql)
 
             id = stock_db.getLastId()
-
+            print id
             if id > 0:
                 for k in range(0, 2):
                     shapeDetail = """INSERT INTO shape_detail (shape_id, shape_date, shape_price, shape_income, created_at, updated_at) VALUES ('%d', '%s','%f', '%f', '%d', '%d')""" % ( \
