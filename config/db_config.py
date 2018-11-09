@@ -86,14 +86,16 @@ class DB(object):
     # 删除记录
     # 新增记录
     def insertData(self, sql):
+        id = 0
         if (self._conn):
             try:
                 self._cursor.execute(sql)
+                id = self._conn.insert_id()
                 self._conn.commit()
                 self.close()
             except Exception, data:
                 self._conn.rollback()
-        return True
+        return id
 
     def getLastId(self):
         try:
