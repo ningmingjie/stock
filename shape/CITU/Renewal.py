@@ -51,7 +51,7 @@ class Renewal:
                     is_succee = 20
                 else:
                     is_succee = 10
-                count = """SELECT COUNT(*) FROM shape WHERE sec_code = %d AND deleted_at IS NULL""" % (data[i]['sec_code'])
+                count = """SELECT COUNT(*) FROM shape WHERE sec_code = %s AND deleted_at IS NULL""" % (data[i]['sec_code'])
                 count = stock_db.fetch_one(count)
                 print count
                 morrowIncome = income
@@ -75,7 +75,7 @@ class Renewal:
             upSql = """UPDATE shape SET cast_date = '%s', morrow_income = '%f', morrow_price = '%f', high_income = '%f', high_price = '%f', total_income = '%f' \
 , total_price = '%f', best_position = '%d', total_position = '%d', win_rate = '%f', stage = '%d', updated_at = '%d' WHERE id = '%d'""" % (castDate, \
 morrowIncome, morrowPrice, highIncome, highPrice, totalIncome, totalPrice, highPosition, periods, winRate, stage, int(time.time()), data[i]['id'])
-            print upSql
+
             stock_db.update(upSql)
         return True
 
