@@ -98,7 +98,7 @@ class DB(object):
     def getLastId(self):
         try:
             self._cursor.execute("select last_insert_id();")
-            data = self._cursor.fetchall();
+            data = self._cursor.fetchall()
             return data[0][0]
         except Exception, data:
             return data
