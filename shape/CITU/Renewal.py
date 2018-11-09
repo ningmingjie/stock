@@ -38,6 +38,7 @@ class Renewal:
 
         for i in range(0, len(data)):
             cal = Stock.getStockCal(data[i]['sec_code'], Date.getDateAmend(self._date), Date.getDateAmend(self._date))
+            print cal
             if len(cal) <= 0:
                 continue
             morrowIncome = data[i]['morrow_income']
