@@ -27,8 +27,7 @@ class Renewal:
     获取形态运行中的股票
     """
     def getOperationStock(self):
-        sql = """SELECT * FROM shape WHERE stage = '%d' AND appear_date != '%s'  deleted_at IS NULL""" % (200, Date.getDateAmend(self._date))
-        print sql
+        sql = """SELECT * FROM shape WHERE stage = %d AND appear_date != '%s' AND deleted_at IS NULL""" % (200, Date.getDateAmend(self._date))
         return stock_db.fetch_all(sql)
 
     """
