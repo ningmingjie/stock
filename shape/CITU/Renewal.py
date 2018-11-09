@@ -62,6 +62,7 @@ class Renewal:
             periods = data[i]['total_position']+1
             totalIncome = income
             totalPrice = cal[0]['close']
+            stage = 200
             if data[i]['total_position'] == 9:
                 stage = 300
             upSql = """UPDATE shape SET cast_date = '%s' AND morrow_income = '%f' AND morrow_price = '%f' AND high_income = '%f' AND high_price = '%f' AND total_income = '%f' \
