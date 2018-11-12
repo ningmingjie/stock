@@ -62,7 +62,7 @@ for i in range(0, 11):
     suspend = Suspend(_date[i])
     #_date = time.strftime('%Y-%m-%d', time.localtime(time.time()))
     _dates = _date[i]
-    sql = """UPDATE suspend SET suspend_type = %d, resum_date = '%s' WHERE suspend_type = %d """ % (20, _date, 10)
+    sql = """UPDATE suspend SET suspend_type = %d, resum_date = '%s' WHERE suspend_type = %d """ % (20, _dates, 10)
     stock_db.update(sql)
     for i in range(1, 5):
         res = suspend.getData(i)
