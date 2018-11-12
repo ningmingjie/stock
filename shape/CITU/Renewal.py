@@ -48,7 +48,7 @@ class Renewal:
             castDate = data[i]['cast_date']
             income = (cal[0]['close'] - data[i]['join_price']) / data[i]['join_price']
             is_succee = data[i]['is_succee']
-            if data[i]['total_position'] == 1:
+            if data[i]['total_position'] == 0:
                 count = """SELECT COUNT(*) as ct FROM shape WHERE sec_code = %s AND deleted_at IS NULL""" % (data[i]['sec_code'])
                 count = stock_db.fetch_one(count)
                 if cal[0]['close'] > data[i]['join_price']:
