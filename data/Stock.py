@@ -6,6 +6,7 @@ import tushare as ts
 import pandas as pd
 import time
 import re
+from data.Date import Date
 from config.db_config import stock_db
 
 reload(sys)
@@ -114,9 +115,14 @@ class Stock:
     """
     @staticmethod
     def getLastCalDate(secCode, _date):
-        sql = """SELECT sec_id, sec_code, sec_name, suspend_date FROM suspend WHERE sec_code = '%s' AND suspend_date < '%s' ORDER BY suspend_date DESC LIMIT 1""" % (secCode, _date)
+        sql = """SELECT sec_id, sec_code, sec_name, suspend_date FROM suspend WHERE sec_code = '%s' AND suspend_date <= '%s' ORDER BY suspend_date DESC LIMIT 1""" % (secCode, _date)
         query = stock_db.fetch_one(sql)
-        print query['suspend_date']
+        if query != None:
+            _date = query['suspend_date']
+
+        pro = ts.pro_api()
+        data = pro.query('trade_cal', start_date=Date.getDiffDate(_date, 15), end_date=Date.getDateFormat(_date, '%Y-%m-%d', '%Y%m%d'))
+        print data
 
     @staticmethod
     def getStockInfo(secID):
