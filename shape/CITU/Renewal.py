@@ -78,7 +78,7 @@ class Renewal:
             stage = 200
             if data[i]['total_position'] == 9:
                 stage = 300
-            upSql = """UPDATE shape SET is_succee = '%d' cast_date = '%s', morrow_income = '%f', morrow_price = '%f', high_income = '%f', high_price = '%f', total_income = '%f' \
+            upSql = """UPDATE shape SET is_succee = '%d', cast_date = '%s', morrow_income = '%f', morrow_price = '%f', high_income = '%f', high_price = '%f', total_income = '%f' \
 , total_price = '%f', best_position = '%d', total_position = '%d', win_rate = '%f', stage = '%d', updated_at = '%d' WHERE id = '%d'""" % (is_succee, castDate, \
 morrowIncome, morrowPrice, highIncome, highPrice, totalIncome, totalPrice, highPosition, periods, winRate, stage, int(time.time()), data[i]['id'])
             stock_db.update(upSql)
