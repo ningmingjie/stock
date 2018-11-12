@@ -20,8 +20,8 @@ class Present:
         self.secCode = secCode
         self.secName = secName
         self.secID = secID
-        #self._date = time.strftime('%Y-%m-%d', time.localtime(time.time()))
-        self._date = '2018-10-30'
+        self._date = time.strftime('%Y-%m-%d', time.localtime(time.time()))
+        #self._date = '2018-10-30'
         self._lastCalDate = Date.getDateAmend(StockUD.getLastCalDate(secCode, self._date))
 
     """
@@ -72,7 +72,9 @@ class Present:
             totalIncome = 0
             totalPrice = 0
             stage = 200
-
+            query = """SELECT * FROM shape WHERE sec_code = '%s' AND appear_date = '%s' AND deleted_at IS NULL""" % (self.secCode, appearDate)
+            if stock_db.fetch_one(query) != None:
+                continue
             sql = """INSERT INTO shape (shape_key, sec_id, sec_code, sec_name, is_succee, appear_date, cast_date, join_price, morrow_income, morrow_price, high_income, \
 high_price, total_income, total_price, best_position, total_position, win_rate, stage, created_at, updated_at) VALUES ('%s', '%s', \
 '%s', '%s', '%d', '%s', '%s', '%f', '%f', '%f', '%f', '%f', '%f', '%f', '%d', '%d', '%f', '%d',  '%d', '%d')""" % ('CITU', self.secID, self.secCode, self.secName, \

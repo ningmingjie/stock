@@ -19,14 +19,15 @@ class History:
         self.secCode = secCode
         self.secName = secName
         self.secID = secID
+        self._date = time.strftime('%Y-%m-%d', time.localtime(time.time()))
 
     """
     获取历史行情数据
     startDay ：开始时间
     endDay ：结束时间
     """
-    def getHistData(self, startDay = '2001-12-10', endDay = '2018-10-29'):
-        data = ts.get_hist_data(self.secCode, startDay, endDay)
+    def getHistData(self, startDay = '2001-12-10'):
+        data = ts.get_hist_data(self.secCode, startDay, self._date)
         data.reset_index(inplace=True)
         #索引重新命名
         data.rename(
@@ -126,7 +127,7 @@ for tk in sk:
     try:
         sec = re.split("-", tk)
         history = History(sec[0], sec[1], sec[2])
-        res = history.handel('2016-01-01', '2018-10-30', 10)
+        res = history.handel('2016-01-01', 10)
         print sec[2]
     except Exception, data:
         continue

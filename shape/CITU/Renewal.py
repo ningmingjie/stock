@@ -21,8 +21,8 @@ class Renewal:
         self.secCode = secCode
         self.secName = secName
         self.secID = secID
-        #self._date = time.strftime('%Y%m%d', time.localtime(time.time()))
-        self._date = '20181031'
+        self._date = time.strftime('%Y%m%d', time.localtime(time.time()))
+        #self._date = '20181031'
 
     """
     获取形态运行中的股票
