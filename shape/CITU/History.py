@@ -78,7 +78,7 @@ class History:
             stage = 300
             if ((i-period) and i!=0)<0:
                 stage = 200
-                periods = i-1
+                periods = i-2
 
             if i-1 != 0:
                 morrowIncome = (data[i-2]['close'] - data[i-1]['close']) / data[i-1]['close']
