@@ -41,9 +41,6 @@ class Present:
         #返回字典类型
         return data.to_dict('records')
 
-    def getCalDate(self):
-        StockUD.getLastCalDate('002253', '2018-11-01')
-
     """
     计算形态
     startDay ：开始时间
@@ -106,7 +103,7 @@ for tk in sk:
     try:
         sec = re.split("-", tk)
         present = Present(sec[0], sec[1], sec[2])
-        res = present.getCalDate()
+        res = present.handel()
         print sec[2]
     except Exception, data:
         print data
