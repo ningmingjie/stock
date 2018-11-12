@@ -78,7 +78,7 @@ class DB(object):
                 flag = True
                 self.close()
             except Exception, data:
-                flag = False
+                print data
                 #self._logger.warn("update database exception, %s" % data)
 
         return flag
