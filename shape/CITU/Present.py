@@ -39,7 +39,7 @@ class Present:
         return data.to_dict('records')
 
     def getCalDate(self):
-        StockUD.getLastCalDate('300324', '2018-11-01')
+        StockUD.getLastCalDate('002253', '2018-11-01')
 
     """
     计算形态
