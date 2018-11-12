@@ -114,9 +114,9 @@ class Stock:
     """
     @staticmethod
     def getLastCalDate(secCode, _date):
-        sql = """SELECT sec_id, sec_code, sec_name, suspend_date FROM suspend WHERE suspend_date < '%s' ORDER BY suspend_date DESC LIMIT 1""" % (_date)
+        sql = """SELECT sec_id, sec_code, sec_name, suspend_date FROM suspend WHERE sec_code = '%s' AND suspend_date < '%s' ORDER BY suspend_date DESC LIMIT 1""" % (secCode, _date)
         query = stock_db.fetch_one(sql)
-        print query
+        print query['suspend_date']
 
     @staticmethod
     def getStockInfo(secID):
