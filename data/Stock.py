@@ -121,10 +121,9 @@ class Stock:
             _date = query['suspend_date']
             _date = _date.strftime('%Y-%m-%d')
 
-        print type(_date)
         pro = ts.pro_api()
         data = pro.query('trade_cal', start_date=Date.getDiffDate(_date, 15), end_date=Date.getDateFormat(_date, '%Y-%m-%d', '%Y%m%d'))
-        print data
+        print data[data.is_open==1]
 
     @staticmethod
     def getStockInfo(secID):
