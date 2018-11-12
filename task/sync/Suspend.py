@@ -47,7 +47,7 @@ class Suspend:
             reSql = """SELECT * FROM suspend WHERE sec_code = '%s' AND suspend_date = '%s'""" % (stock['sec_code'], Date.getDate(val[2]))
             query = stock_db.fetch_one(reSql)
             if query != None:
-                upSql = """UPDATE suspend SET suspend_type = '%d'  WHERE sec_code = '%s' AND suspend_date = '%s'""" % (10, stock['sec_code'], Date.getDate(val[2]))
+                upSql = """UPDATE suspend SET suspend_type = '%d', resum_date = NULL  WHERE sec_code = '%s' AND suspend_date = '%s'""" % (10, stock['sec_code'], Date.getDate(val[2]))
                 stock_db.update(upSql)
                 continue
             sql = """INSERT INTO suspend (sec_id, sec_code, sec_name, suspend_type, suspend_date, suspend_reason, created_at, updated_at) VALUES ('%s', '%s', '%s', '%d', '%s', \
@@ -56,7 +56,8 @@ class Suspend:
         return True
 
 suspend = Suspend()
-sql = """UPDATE suspend SET suspend_type = '%d'""" % (20)
+_date = time.strftime('%Y-%m-%d',time.localtime(time.time()))
+sql = """UPDATE suspend SET suspend_type = %d, resum_date = '%s' WHERE supspend_type = %d AND resum_date = NULL """ % (20, _date, 10)
 stock_db.update(sql)
 for i in range(1, 5):
     res = suspend.getData(i)
