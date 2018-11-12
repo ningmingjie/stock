@@ -59,18 +59,15 @@ class Present:
             average = (data[i]['open']+data[i]['close'])/2
             if data[i-1]['close'] < average:
                 continue
-            if data[i-1]['close'] < data[i-2]['close']:
-                is_succee = 20
-            else:
-                is_succee = 10
 
+            is_succee = 0
             morrowIncome = 0
             morrowPrice = 0
             castDate = '1970-01-01'
             appearDate = data[i-1]['date']
             highIncome = 0
             highPrice = 0
-            highPosition = 1
+            highPosition = 0
             winRate = 0
             totalIncome = 0
             totalPrice = 0
@@ -79,7 +76,7 @@ class Present:
             sql = """INSERT INTO shape (shape_key, sec_id, sec_code, sec_name, is_succee, appear_date, cast_date, join_price, morrow_income, morrow_price, high_income, \
 high_price, total_income, total_price, best_position, total_position, win_rate, stage, created_at, updated_at) VALUES ('%s', '%s', \
 '%s', '%s', '%d', '%s', '%s', '%f', '%f', '%f', '%f', '%f', '%f', '%f', '%d', '%d', '%f', '%d',  '%d', '%d')""" % ('CITU', self.secID, self.secCode, self.secName, \
-is_succee, appearDate, castDate, data[i-1]['close'], morrowIncome, morrowPrice, highIncome, highPrice, totalIncome, totalPrice, highPosition,1, winRate, stage, int(time.time()), int(time.time()))
+is_succee, appearDate, castDate, data[i-1]['close'], morrowIncome, morrowPrice, highIncome, highPrice, totalIncome, totalPrice, highPosition, 0, winRate, stage, int(time.time()), int(time.time()))
 
             id = stock_db.insertData(sql)
             if id > 0:
