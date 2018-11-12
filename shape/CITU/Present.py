@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 import time
 import re
+from data.Date import Date
 from data.Stock import Stock as StockUD
 from config.db_config import stock_db
 
@@ -19,7 +20,8 @@ class Present:
         self.secCode = secCode
         self.secName = secName
         self.secID = secID
-        self._date = time.strftime('%Y%m%d', time.localtime(time.time()))
+        self._date = time.strftime('%Y-%m-%d', time.localtime(time.time()))
+        self._lastCalDate = Date.getDateAmend(StockUD.getLastCalDate(secCode, self._date))
 
     """
     获取近两日行情数据
@@ -28,7 +30,7 @@ class Present:
     """
     def getHistData(self):
         #获取上个交易日期
-        data = ts.get_hist_data(self.secCode, '2018-10-30', '2018-10-31')
+        data = ts.get_hist_data(self.secCode, self._lastCalDate, self._date)
         data.reset_index(inplace=True)
         #索引重新命名
         data.rename(

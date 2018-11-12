@@ -25,7 +25,7 @@ class History:
     startDay ：开始时间
     endDay ：结束时间
     """
-    def getHistData(self, startDay = '2001-12-10', endDay = '2018-10-30'):
+    def getHistData(self, startDay = '2001-12-10', endDay = '2018-10-29'):
         data = ts.get_hist_data(self.secCode, startDay, endDay)
         data.reset_index(inplace=True)
         #索引重新命名

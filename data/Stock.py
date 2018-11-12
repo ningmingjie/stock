@@ -125,7 +125,7 @@ class Stock:
         data = pro.query('trade_cal', start_date=Date.getDiffDate(_date, 15), end_date=Date.getDiffDate(_date, 1))
         data.reset_index(inplace=True)
         dict = data[data.is_open==1].to_dict('records')
-        print  dict[len(dict)-1]['cal_date']
+        return  dict[len(dict)-1]['cal_date']
 
     @staticmethod
     def getStockInfo(secID):
