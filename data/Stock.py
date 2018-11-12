@@ -123,7 +123,8 @@ class Stock:
 
         pro = ts.pro_api()
         data = pro.query('trade_cal', start_date=Date.getDiffDate(_date, 15), end_date=Date.getDateFormat(_date, '%Y-%m-%d', '%Y%m%d'))
-        dict = data[data.is_open==1].reset_index(inplace=True).to_dict('records')
+        dict = data[data.is_open==1].reset_index(inplace=True)
+        dict = dict.to_dict('records')
         print dict[len(dict)-1]['cal_date']
 
     @staticmethod
