@@ -19,8 +19,8 @@ class Suspend:
     def __init__(self, _date):
         self.headers = {'content-type': 'application/json',
                    'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:22.0) Gecko/20100101 Firefox/22.0'}
-        #self._date = time.strftime('%Y-%m-%d',time.localtime(time.time()))
-        self._date = _date
+        self._date = time.strftime('%Y-%m-%d',time.localtime(time.time()))
+        #self._date = _date
 
     #获取东财停复牌数据
     def getSoup(self, page):
@@ -57,14 +57,11 @@ class Suspend:
         return True
 
 
-_date = ['2018-11-01', '2018-11-02', '2018-11-03', '2018-11-04', '2018-11-05', '2018-11-06', '2018-11-07', '2018-11-08', '2018-11-09', '2018-11-10', '2018-11-11']
-for i in range(0, 11):
-    suspend = Suspend(_date[i])
-    #_date = time.strftime('%Y-%m-%d', time.localtime(time.time()))
-    _dates = _date[i]
-    sql = """UPDATE suspend SET suspend_type = %d, resum_date = '%s' WHERE suspend_type = %d """ % (20, _dates, 10)
-    stock_db.update(sql)
-    for i in range(1, 5):
-        res = suspend.getData(i)
-        if res == False:
-            exit()
+suspend = Suspend()
+_date = time.strftime('%Y-%m-%d', time.localtime(time.time()))
+sql = """UPDATE suspend SET suspend_type = %d, resum_date = '%s' WHERE suspend_type = %d """ % (20, _date, 10)
+stock_db.update(sql)
+for i in range(1, 5):
+    res = suspend.getData(i)
+    if res == False:
+        exit()
