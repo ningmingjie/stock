@@ -39,10 +39,9 @@ class Renewal:
 
         for i in range(0, len(data)):
             cal = StockUD.getStockCal(data[i]['sec_code'], Date.getDateAmend(self._date), Date.getDateAmend(self._date))
-
+            print cal
             if len(cal) <= 0:
                 continue
-            print 2333
 
             morrowIncome = data[i]['morrow_income']
             morrowPrice = data[i]['morrow_price']
