@@ -120,7 +120,7 @@ class Stock:
         if query != None:
             _date = query['suspend_date']
 
-        print _date
+        print type(_date)
         pro = ts.pro_api()
         data = pro.query('trade_cal', start_date=Date.getDiffDate(_date, 15), end_date=Date.getDateFormat(_date, '%Y-%m-%d', '%Y%m%d'))
         print data

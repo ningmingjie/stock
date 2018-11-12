@@ -28,7 +28,7 @@ class Date:
     """
     @staticmethod
     def getDateFormat(_date, format, expectFormat):
-        return time.strftime(expectFormat, time.strptime('%s', format)) % (_date)
+        return time.strftime(expectFormat, time.strptime(_date, format))
 
     """
     获取N天前后的时间
@@ -42,7 +42,7 @@ class Date:
     def getDiffDate(_date, _number, _type = 'redu', expectFormat = '%Y%m%d', format = '%Y-%m-%d'):
         if _type == 'redu':
             return time.strftime(expectFormat,
-                                 time.localtime(time.mktime(time.strptime('%s', format)) - _number * 24 * 3600)) % (_date)
+                                 time.localtime(time.mktime(time.strptime(_date, format)) - _number * 24 * 3600))
         else:
             return time.strftime(expectFormat,
-                                 time.localtime(time.mktime(time.strptime('%s', format)) + _number * 24 * 3600)) % (_date)
+                                 time.localtime(time.mktime(time.strptime(_date, format)) + _number * 24 * 3600))
