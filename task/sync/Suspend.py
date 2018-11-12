@@ -57,7 +57,7 @@ class Suspend:
 
 suspend = Suspend()
 _date = time.strftime('%Y-%m-%d',time.localtime(time.time()))
-sql = """UPDATE suspend SET suspend_type = %d, resum_date = '%s' WHERE supspend_type = %d AND resum_date = NULL """ % (20, _date, 10)
+sql = """UPDATE suspend SET suspend_type = %d, resum_date = '%s' WHERE suspend_type = %d AND resum_date = NULL """ % (20, _date, 10)
 stock_db.update(sql)
 for i in range(1, 5):
     res = suspend.getData(i)
