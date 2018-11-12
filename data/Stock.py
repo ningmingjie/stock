@@ -115,14 +115,14 @@ class Stock:
     """
     @staticmethod
     def getLastCalDate(secCode, _date):
-        sql = """SELECT sec_id, sec_code, sec_name, suspend_date FROM suspend WHERE sec_code = '%s' AND suspend_date < '%s' ORDER BY suspend_date DESC LIMIT 1""" % (secCode, _date)
+        sql = """SELECT sec_id, sec_code, sec_name, suspend_date FROM suspend WHERE sec_code = '%s' AND suspend_date <= '%s' ORDER BY suspend_date DESC LIMIT 1""" % (secCode, _date)
         query = stock_db.fetch_one(sql)
         if query != None:
             _date = query['suspend_date']
             _date = _date.strftime('%Y-%m-%d')
 
         pro = ts.pro_api()
-        data = pro.query('trade_cal', start_date=Date.getDiffDate(_date, 15), end_date=Date.getDateFormat(_date, '%Y-%m-%d', '%Y%m%d'))
+        data = pro.query('trade_cal', start_date=Date.getDiffDate(_date, 15), end_date=Date.getDiffDate(_date, 1))
         data.reset_index(inplace=True)
         dict = data[data.is_open==1].to_dict('records')
         print dict[len(dict)-1]['cal_date']
