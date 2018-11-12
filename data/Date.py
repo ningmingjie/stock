@@ -41,8 +41,11 @@ class Date:
     @staticmethod
     def getDiffDate(_date, _number, _type = 'redu', expectFormat = '%Y%m%d', format = '%Y-%m-%d'):
         if _type == 'redu':
-            return time.strftime(expectFormat,
+            print 12
+            tk =  time.strftime(expectFormat,
                                  time.localtime(time.mktime(time.strptime(_date, format)) - _number * 24 * 3600))
+            print 23
+            return tk
         else:
             return time.strftime(expectFormat,
                                  time.localtime(time.mktime(time.strptime(_date, format)) + _number * 24 * 3600))
