@@ -60,7 +60,8 @@ class Suspend:
 _date = ['2018-11-01', '2018-11-02', '2018-11-03', '2018-11-04', '2018-11-05', '2018-11-06', '2018-11-07', '2018-11-08', '2018-11-09', '2018-11-10', '2018-11-11']
 for i in range(0, 11):
     suspend = Suspend(_date[i])
-    _date = time.strftime('%Y-%m-%d', time.localtime(time.time()))
+    #_date = time.strftime('%Y-%m-%d', time.localtime(time.time()))
+    _dates = _date[i]
     sql = """UPDATE suspend SET suspend_type = %d, resum_date = '%s' WHERE suspend_type = %d """ % (20, _date, 10)
     stock_db.update(sql)
     for i in range(1, 5):
