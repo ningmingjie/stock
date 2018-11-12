@@ -119,7 +119,7 @@ class Stock:
         query = stock_db.fetch_one(sql)
         if query != None:
             _date = query['suspend_date']
-            _date.strftime('%Y-%m-%d')
+            _date = _date.strftime('%Y-%m-%d')
 
         print type(_date)
         pro = ts.pro_api()
