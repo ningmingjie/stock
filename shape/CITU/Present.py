@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 import time
 import re
+from data.Stock import Stock as StockUD
 from config.db_config import stock_db
 
 reload(sys)
@@ -36,6 +37,9 @@ class Present:
                      'ma20': 'ma20', 'v_ma5': 'v_ma5', 'v_ma10': 'v_ma10', 'v_ma20': 'v_ma20'}, inplace=True)
         #返回字典类型
         return data.to_dict('records')
+
+    def getCalDate(self):
+        StockUD.getLastTradeCal('300682')
 
     """
     计算形态
@@ -99,7 +103,7 @@ for tk in sk:
     try:
         sec = re.split("-", tk)
         present = Present(sec[0], sec[1], sec[2])
-        res = present.handel()
+        res = present.getCalDate()
         print sec[2]
     except:
         continue

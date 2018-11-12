@@ -108,6 +108,16 @@ class Stock:
         query = stock_db.fetch_one(sql)
         return query
 
+    """
+    获取近股票的上一个交易日
+    secCode 股票代码
+    """
+    @staticmethod
+    def getLastCalDate(secCode, _date):
+        sql = """SELECT sec_id, sec_code, sec_name FROM suspend WHERE suspend_date < %s ORDER BY suspend_date DESC LIMIT 1""" % (_date)
+        query = stock_db.fetch_one(sql)
+        print query
+
     @staticmethod
     def getStockInfo(secID):
         sql = """SELECT sec_id, sec_code, sec_name FROM stock_info WHERE sec_id = '%s'""" % (secID)
