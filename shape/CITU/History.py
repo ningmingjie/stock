@@ -76,11 +76,13 @@ class History:
             totalPrice = 0
 
             stage = 300
-            print i
+            print data[0]['date']
+            print data[1]['date']
+            exit()
             if (i-period)<0:
                 stage = 200
                 periods = i-2
-            if i==0:
+            if i==1:
                 stage = 200
                 periods = 0
 
