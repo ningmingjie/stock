@@ -42,6 +42,8 @@ class Renewal:
 
             if len(cal) <= 0:
                 continue
+            print 2333
+
             morrowIncome = data[i]['morrow_income']
             morrowPrice = data[i]['morrow_price']
             winRate = data[i]['win_rate']
