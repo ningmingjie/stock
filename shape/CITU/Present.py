@@ -105,5 +105,5 @@ for tk in sk:
         present = Present(sec[0], sec[1], sec[2])
         res = present.getCalDate()
         print sec[2]
-    except:
-        continue
+    except Exception, data:
+        print data
