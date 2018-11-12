@@ -69,7 +69,7 @@ class History:
             appearDate = data[i-1]['date']
             highIncome = 0
             highPrice = 0
-            highPosition = 0
+            highPosition = 1
             winRate = 0
             periods = period
             totalIncome = 0
@@ -78,7 +78,7 @@ class History:
             stage = 300
             if (i-period)<0:
                 stage = 200
-                periods = i-1
+                periods = i-2
 
             if i-1 != 0:
                 morrowIncome = (data[i-2]['close'] - data[i-1]['close']) / data[i-1]['close']

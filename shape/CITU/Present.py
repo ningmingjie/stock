@@ -66,7 +66,7 @@ class Present:
             appearDate = data[i-1]['date']
             highIncome = 0
             highPrice = 0
-            highPosition = 0
+            highPosition = 1
             winRate = 0
             totalIncome = 0
             totalPrice = 0
