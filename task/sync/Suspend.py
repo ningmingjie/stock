@@ -45,15 +45,15 @@ class Suspend:
             stock = Stock.getCodeStockInfo(val[0])
             if stock == None:
                 continue
-            reSql = """SELECT * FROM suspend WHERE sec_code = '%s' AND suspend_type = %d""" % (stock['sec_code'], 30)
+            reSql = """SELECT * FROM suspend WHERE sec_code = '%s' AND suspend_date = '%s'""" % (stock['sec_code'], Date.getDate(val[2]))
             query = stock_db.fetch_one(reSql)
             if query != None:
                 if Date.getTimestamp(Date.getDate(val[3]), '%Y-%m-%d') == Date.getTimestamp(self._date, '%Y-%m-%d'):
-                    upSql = """UPDATE suspend SET suspend_type = %d, resum_date = '%s'  WHERE sec_code = '%s' AND suspend_date = '%s' AND  suspend_type = %d""" % (20, val[8], stock['sec_code'], val[7], 30)
+                    upSql = """UPDATE suspend SET suspend_type = %d, resum_date = '%s'  WHERE sec_code = '%s' AND suspend_date = '%s'""" % (20, val[8], stock['sec_code'], val[7])
                 elif Date.getTimestamp(Date.getDate(val[3]), '%Y-%m-%d') > Date.getTimestamp(self._date, '%Y-%m-%d'):
-                    upSql = """UPDATE suspend SET suspend_type = '%d', resum_date = NULL  WHERE sec_code = '%s' AND suspend_date = '%s' AND suspend_type = %d""" % (10, stock['sec_code'], val[7], 30)
+                    upSql = """UPDATE suspend SET suspend_type = '%d', resum_date = NULL  WHERE sec_code = '%s' AND suspend_date = '%s'""" % (10, stock['sec_code'], val[7])
                 elif Date.getTimestamp(Date.getDate(val[3]), '%Y-%m-%d') < Date.getTimestamp(self._date, '%Y-%m-%d'):
-                    upSql = """UPDATE suspend SET suspend_type = %d, resum_date = '%s'  WHERE sec_code = '%s' AND suspend_date = '%s' AND suspend_type = %d""" % (20, val[8], stock['sec_code'], val[7], 30)
+                    upSql = """UPDATE suspend SET suspend_type = %d, resum_date = '%s'  WHERE sec_code = '%s' AND suspend_date = '%s'""" % (20, val[8], stock['sec_code'], val[7])
                 stock_db.update(upSql)
                 continue
             sql = """INSERT INTO suspend (sec_id, sec_code, sec_name, suspend_type, suspend_date, suspend_reason, created_at, updated_at) VALUES ('%s', '%s', '%s', '%d', '%s', \
@@ -62,12 +62,12 @@ class Suspend:
         return True
 
 
-_date = ['2018-11-01']
+_date = ['2018-11-01', '2018-11-02', '2018-11-03', '2018-11-04', '2018-11-05', '2018-11-06', '2018-11-07', '2018-11-08', '2018-11-09', '2018-11-10', '2018-11-11', '2018-11-12']
 for i in range(0, 12):
     suspend = Suspend(_date[i])
     #_date = time.strftime('%Y-%m-%d', time.localtime(time.time()))
     _dates = _date[i]
-    sql = """UPDATE suspend SET suspend_type = %d, resum_date = '%s' WHERE suspend_type = %d """ % (30, _dates, 10)
+    sql = """UPDATE suspend SET suspend_type = %d, resum_date = '%s' WHERE suspend_type = %d """ % (20, _dates, 10)
     stock_db.update(sql)
     for i in range(1, 5):
         res = suspend.getData(i)
