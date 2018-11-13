@@ -117,17 +117,24 @@ class Stock:
     def getLastSecCalDate(secCode, _date):
         sql = """SELECT sec_id, sec_code, sec_name, suspend_date, resum_date FROM suspend WHERE sec_code = '%s' AND suspend_date <= '%s' ORDER BY suspend_date DESC LIMIT 1""" % (secCode, _date)
         query = stock_db.fetch_one(sql)
-
+        print 2
         lastCalDate = Stock.getLastCalDate(_date)
-
+        print 3
         if Date.getTimestamp(query['resum_date']) == Date.getTimestamp('1970-01-01'):
+            print 22
             cal = Stock.getLastCalDate(query['suspend_date'])
+            print 4
         elif Date.getTimestamp(query['resum_date']) < Date.getTimestamp(lastCalDate, '%Y%m%d'):
+            print 33
             cal = lastCalDate
+            print 5
         else:
+            print 44
             cal = Stock.getLastCalDate(query['suspend_date'])
-
+            print 6
+        print 7
         print Date.getDateAmend(cal)
+        print 8
         exit()
         return Date.getDateAmend(cal)
 
