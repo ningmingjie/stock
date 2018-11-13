@@ -22,7 +22,7 @@ class Present:
         self.secID = secID
         self._date = time.strftime('%Y-%m-%d', time.localtime(time.time()))
         #self._date = '2018-10-30'
-        self._lastCalDate = Date.getDateAmend(StockUD.getLastCalDate(secCode, self._date))
+        self._lastCalDate = Date.getDateAmend(StockUD.getLastSecCalDate(secCode, self._date))
 
     """
     获取近两日行情数据
