@@ -121,7 +121,7 @@ class Stock:
         lastCalDate = Stock.getLastTradeCal(_date)
 
         if Date.getTimestamp(query['resum_date']) == Date.getTimestamp('1970-01-01'):
-            cal = Stock.getLastTradeCal(query['suspend_date'])
+            cal = Stock.getLastCalDate(query['suspend_date'])
         elif Date.getTimestamp(query['resum_date']) < Date.getTimestamp(lastCalDate, '%Y%m%d'):
             cal = lastCalDate
         else:
