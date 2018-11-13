@@ -62,7 +62,7 @@ class Suspend:
         return True
 
 
-_date = ['2018-11-01', '2018-11-02', '2018-11-03', '2018-11-04', '2018-11-05', '2018-11-06', '2018-11-07', '2018-11-08', '2018-11-09', '2018-11-10', '2018-11-11', '2018-11-12']
+_date = ['2018-11-01']
 for i in range(0, 12):
     suspend = Suspend(_date[i])
     #_date = time.strftime('%Y-%m-%d', time.localtime(time.time()))
