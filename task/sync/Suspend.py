@@ -57,10 +57,12 @@ class Suspend:
                 stock_db.update(upSql)
                 continue
             resumDate = None
+            suspendType = 10
             if Date.getTimestamp(Date.getDate(val[3]), '%Y-%m-%d') < Date.getTimestamp(self._date, '%Y-%m-%d'):
                 resumDate = val[8]
+                suspendType = 20
             sql = """INSERT INTO suspend (sec_id, sec_code, sec_name, suspend_type, resum_date, suspend_date, suspend_reason, created_at, updated_at) VALUES ('%s', '%s', '%s', '%d', '%s', \
-'%s', '%s', '%d', '%d')""" % (stock['sec_id'], stock['sec_code'], stock['sec_name'], 10, resumDate,Date.getDate(val[2]), val[5],int(time.time()), int(time.time()))
+'%s', '%s', '%d', '%d')""" % (stock['sec_id'], stock['sec_code'], stock['sec_name'], suspendType, resumDate,Date.getDate(val[2]), val[5],int(time.time()), int(time.time()))
             stock_db.insertData(sql)
         return True
 
