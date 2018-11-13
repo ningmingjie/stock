@@ -110,17 +110,34 @@ class Stock:
         return query
 
     """
-    获取近股票的上一个交易日
+    获取股票的上一个交易日
     secCode 股票代码
     """
     @staticmethod
-    def getLastCalDate(secCode, _date):
+    def getLastSecCalDate(secCode, _date):
         sql = """SELECT sec_id, sec_code, sec_name, suspend_date FROM suspend WHERE sec_code = '%s' AND suspend_date <= '%s' ORDER BY suspend_date DESC LIMIT 1""" % (secCode, _date)
         query = stock_db.fetch_one(sql)
-        if query != None:
-            _date = query['suspend_date']
-            _date = _date.strftime('%Y-%m-%d')
 
+        lastCalDate = Stock.getLastTradeCal(_date)
+
+        if Date.getTimestamp(query['resum_date']) == Date.getTimestamp('1970-01-01'):
+            cal = Stock.getLastTradeCal(query['suspend_date'])
+        elif Date.getTimestamp(query['resum_date']) < Date.getTimestamp(lastCalDate, '%Y%m%d'):
+            cal = lastCalDate
+        else:
+            cal = Stock.getLastTradeCal(query['suspend_date'])
+
+        print Date.getDateAmend(cal)
+        exit()
+        return Date.getDateAmend(cal)
+
+
+
+    """
+    获取上一个交易日
+    """
+    @staticmethod
+    def getLastCalDate(_date):
         pro = ts.pro_api()
         data = pro.query('trade_cal', start_date=Date.getDiffDate(_date, 15), end_date=Date.getDiffDate(_date, 1))
         data.reset_index(inplace=True)

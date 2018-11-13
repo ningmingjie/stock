@@ -102,6 +102,7 @@ for tk in sk:
     try:
         sec = re.split("-", tk)
         present = Present(sec[0], sec[1], sec[2])
+        exit()
         res = present.handel()
         print sec[2]
     except Exception, data:
