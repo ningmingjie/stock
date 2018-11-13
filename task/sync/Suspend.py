@@ -45,7 +45,7 @@ class Suspend:
             stock = Stock.getCodeStockInfo(val[0])
             if stock == None:
                 continue
-            reSql = """SELECT * FROM suspend WHERE sec_code = '%s' AND suspend_date = '%s'""" % (stock['sec_code'], Date.getDate(val[2]))
+            reSql = """SELECT * FROM suspend WHERE sec_code = '%s' AND suspend_type = %d""" % (stock['sec_code'], 30)
             query = stock_db.fetch_one(reSql)
             if query != None:
                 if Date.getTimestamp(Date.getDate(val[3]), '%Y-%m-%d') == Date.getTimestamp(self._date, '%Y-%m-%d'):
@@ -67,7 +67,7 @@ for i in range(0, 12):
     suspend = Suspend(_date[i])
     #_date = time.strftime('%Y-%m-%d', time.localtime(time.time()))
     _dates = _date[i]
-    sql = """UPDATE suspend SET suspend_type = %d, resum_date = '%s' WHERE suspend_type = %d """ % (20, _dates, 10)
+    sql = """UPDATE suspend SET suspend_type = %d, resum_date = '%s' WHERE suspend_type = %d """ % (30, _dates, 10)
     stock_db.update(sql)
     for i in range(1, 5):
         res = suspend.getData(i)
