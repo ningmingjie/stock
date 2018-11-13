@@ -22,7 +22,7 @@ class Present:
         self.secID = secID
         self._date = time.strftime('%Y-%m-%d', time.localtime(time.time()))
         #self._date = '2018-10-30'
-        self._lastCalDate = Date.getDateAmend(StockUD.getLastSecCalDate(secCode, self._date))
+        self._lastCalDate = StockUD.getLastSecCalDate(secCode, self._date)
 
     """
     获取近两日行情数据
@@ -31,9 +31,7 @@ class Present:
     """
     def getHistData(self):
         #获取上个交易日期
-        print 33
         data = ts.get_hist_data(self.secCode, self._lastCalDate, self._date)
-        exit()
         data.reset_index(inplace=True)
         #索引重新命名
         data.rename(
