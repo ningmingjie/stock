@@ -132,8 +132,7 @@ class Stock:
             cal = lastCalDate
         else:
             cal = Stock.getLastCalDate(_supDate)
-        print Date.getDateAmend(cal)
-        exit()
+
         return Date.getDateAmend(cal)
 
 
