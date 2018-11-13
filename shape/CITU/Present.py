@@ -32,9 +32,9 @@ class Present:
     def getHistData(self):
         #获取上个交易日期
         data = ts.get_hist_data(self.secCode, self._lastCalDate, self._date)
-        print 33
+        print data
+        exit()
         data.reset_index(inplace=True)
-        print 32
         #索引重新命名
         data.rename(
             columns={'date': 'date', 'open': 'open', 'high': 'high', 'close': 'close', 'low': 'low', 'volume': 'volume',
