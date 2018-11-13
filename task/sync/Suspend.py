@@ -50,6 +50,7 @@ class Suspend:
             if query != None:
                 if Date.getTimestamp(Date.getDate(val[3]), '%Y-%m-%d') >= Date.getTimestamp(self._date, '%Y-%m-%d'):
                     upSql = """UPDATE suspend SET suspend_type = %d, resum_date = '%s'  WHERE sec_code = '%s' AND suspend_date = '%s'""" % (20, val[8], stock['sec_code'], val[7])
+                    print upSql
                 elif Date.getTimestamp(Date.getDate(val[3]), '%Y-%m-%d') < Date.getTimestamp(self._date, '%Y-%m-%d'):
                     upSql = """UPDATE suspend SET suspend_type = '%d', resum_date = NULL  WHERE sec_code = '%s' AND suspend_date = '%s'""" % (10, stock['sec_code'], val[7])
                 stock_db.update(upSql)
