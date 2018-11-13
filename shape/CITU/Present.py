@@ -53,10 +53,9 @@ class Present:
             return False
 
         data = self.getHistData()
-        print data
-        exit()
+
         dataLen = len(data)
-        for i in range(dataLen-1, -1, -1):
+        for i in range(dataLen-1, 0, -1):
             if data[i]['close'] > data[i]['open']:
                 continue
             if data[i]['low'] < data[i-1]['open']:
