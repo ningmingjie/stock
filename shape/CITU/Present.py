@@ -47,7 +47,14 @@ class Present:
     endDay ：结束时间
     """
     def handel(self):
+        if StockUD.getIsStopCalDate(self._date) == True:
+            return False
+        if StockUD.getIsCalDate(self._date) == False:
+            return False
+
         data = self.getHistData()
+        print data
+        exit()
         dataLen = len(data)
         for i in range(dataLen-1, -1, -1):
             if data[i]['close'] > data[i]['open']:
@@ -103,6 +110,6 @@ for tk in sk:
         sec = re.split("-", tk)
         present = Present(sec[0], sec[1], sec[2])
         res = present.handel()
-        print sec[2]
+        print sec[1]
     except Exception, data:
         print data

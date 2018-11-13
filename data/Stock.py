@@ -153,6 +153,30 @@ class Stock:
         query = stock_db.fetch_one(sql)
         return query
 
+    """
+    获取股票是否停复牌
+    """
+    @staticmethod
+    def getIsStopCalDate(secCode):
+        sql = """SELECT * FROM suspend WHERE sec_code = '%s' AND resum_date == '1970-01-01' LIMIT 1""" % (secCode)
+        query = stock_db.fetch_one(sql)
+        if query == None:
+            return True
+        return False
+
+    """
+    获取当天是否是交易日
+    """
+    @staticmethod
+    def getIsCalDate(_date):
+        pro = ts.pro_api()
+        data = pro.query('trade_cal', start_date=Date.getDiffDate(_date, 2), end_date=Date.getDiffDate(_date, 0))
+        data.reset_index(inplace=True)
+        dict = data.to_dict('records')
+        if dict[len(dict) - 1]['is_open'] == 1:
+            return True
+        return False
+
 
 class Stocks:
     def getStockAll(self):
