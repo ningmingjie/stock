@@ -47,6 +47,9 @@ class Suspend:
                 continue
             reSql = """SELECT * FROM suspend WHERE sec_code = '%s' AND suspend_type = %d""" % (stock['sec_code'], 30)
             query = stock_db.fetch_one(reSql)
+            if self._date == '2018-11-02':
+                print query
+                exit()
             if query != None:
                 if Date.getTimestamp(Date.getDate(val[3]), '%Y-%m-%d') == Date.getTimestamp(self._date, '%Y-%m-%d'):
                     upSql = """UPDATE suspend SET suspend_type = %d, resum_date = '%s'  WHERE sec_code = '%s' AND suspend_date = '%s' AND  suspend_type = %d""" % (20, val[8], stock['sec_code'], val[7], 30)
