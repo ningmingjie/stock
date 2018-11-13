@@ -97,7 +97,7 @@ class Stock:
 
 #stock = Stock()
 #sk = stock.getStockAll()
-sk = ["300080-吉林高速-601518.SH"]
+sk = ["300011-吉林高速-601518.SH"]
 for tk in sk:
     try:
         sec = re.split("-", tk)
