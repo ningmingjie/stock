@@ -171,7 +171,9 @@ class Stock:
     def getIsCalDate(_date):
         pro = ts.pro_api()
         data = pro.query('trade_cal', start_date=Date.getDiffDate(_date, 2), end_date=Date.getDiffDate(_date, 0))
+        print 11
         data.reset_index(inplace=True)
+        print 44
         dict = data.to_dict('records')
         if dict[len(dict) - 1]['is_open'] == 1:
             return True

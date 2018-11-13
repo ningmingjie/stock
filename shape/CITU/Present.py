@@ -32,7 +32,9 @@ class Present:
     def getHistData(self):
         #获取上个交易日期
         data = ts.get_hist_data(self.secCode, self._lastCalDate, self._date)
+        print 33
         data.reset_index(inplace=True)
+        print 32
         #索引重新命名
         data.rename(
             columns={'date': 'date', 'open': 'open', 'high': 'high', 'close': 'close', 'low': 'low', 'volume': 'volume',
@@ -101,9 +103,9 @@ class Stock:
             lines = [line.strip() for line in f.readlines()]
         return lines
 
-stock = Stock()
-sk = stock.getStockAll()
-#sk = ["300011-吉林高速-601518.SH"]
+#stock = Stock()
+#sk = stock.getStockAll()
+sk = ["601636-旗滨集团-601636.SH"]
 for tk in sk:
     try:
         sec = re.split("-", tk)
