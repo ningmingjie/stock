@@ -18,6 +18,8 @@ class Date:
 
     @staticmethod
     def getDate(date):
+        if len(date) == 0:
+            return '1970-01-01'
         return time.strftime('%Y-%m-%d', time.strptime(date, "%Y-%m-%d %H:%M"))
 
     @staticmethod
