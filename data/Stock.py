@@ -124,7 +124,6 @@ class Stock:
             _remDate = _remDate.strftime('%Y-%m-%d')
 
         lastCalDate = Stock.getLastCalDate(_date)
-        print 22
         if query == None:
             cal = lastCalDate
         elif Date.getTimestamp(_remDate) == Date.getTimestamp('1970-01-01'):
@@ -133,8 +132,6 @@ class Stock:
             cal = lastCalDate
         else:
             cal = Stock.getLastCalDate(_supDate)
-        print 33
-        exit()
         return Date.getDateAmend(cal)
 
 
