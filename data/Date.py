@@ -20,6 +20,10 @@ class Date:
     def getDate(date):
         return time.strftime('%Y-%m-%d', time.strptime(date, "%Y-%m-%d %H:%M"))
 
+    @staticmethod
+    def getTimestamp(_date, format = '%Y-%m-%d'):
+        return int(time.mktime(time.strptime(_date, format)))
+
     """
     格式化时间
     _date 时间
