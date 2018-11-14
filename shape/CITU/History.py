@@ -121,14 +121,14 @@ class Stock:
             lines = [line.strip() for line in f.readlines()]
         return lines
 
-#stock = Stock()
-#sk = stock.getStockAll()
-sk = ["601518-吉林高速-601518.SH"]
+stock = Stock()
+sk = stock.getStockAll()
+#sk = ["601518-吉林高速-601518.SH"]
 for tk in sk:
     try:
         sec = re.split("-", tk)
         history = History(sec[0], sec[1], sec[2])
         res = history.handel('2016-01-01', 10)
-        print sec[2]
+        print sec[1]
     except Exception, data:
         print data
