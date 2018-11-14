@@ -158,7 +158,7 @@ class Stock:
     """
     @staticmethod
     def getIsStopCalDate(secCode):
-        sql = """SELECT * FROM suspend WHERE sec_code = '%s' AND (resum_date = '1970-01-01' OR resum_date = '%s') LIMIT 1""" % (secCode, Date.getDateAmend(Stock._endDate))
+        sql = """SELECT * FROM suspend WHERE sec_code = '%s' AND (resum_date = '1970-01-01' OR resum_date = '%s') LIMIT 1""" % (secCode, Date.getTime())
         query = stock_db.fetch_one(sql)
         if query == None:
             return False
@@ -176,14 +176,6 @@ class Stock:
         if dict[len(dict) - 1]['is_open'] == 1:
             return True
         return False
-
-
-class Stocks:
-    def getStockAll(self):
-        with open('/data/share/loudou/stock/stockTicker.txt', 'r') as f:
-            lines = [line.strip() for line in f.readlines()]
-        return lines
-
 
 #stock = Stocks()
 #sk = stock.getStockAll()
