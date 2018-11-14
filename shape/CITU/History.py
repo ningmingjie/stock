@@ -64,7 +64,7 @@ class History:
             else:
                 defeated = defeated+1
                 is_succee = 10
-            print data[i-1]['date']
+
             morrowIncome = 0
             morrowPrice = 0
             castDate = '1970-01-01'
@@ -131,4 +131,4 @@ for tk in sk:
         res = history.handel('2016-01-01', 10)
         print sec[2]
     except Exception, data:
-        continue
+        print data
