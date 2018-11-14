@@ -43,8 +43,8 @@ class History:
     startDay ：开始时间
     endDay ：结束时间
     """
-    def handel(self, startDay, endDay, period):
-        data = self.getHistData(startDay, endDay)
+    def handel(self, startDay, period):
+        data = self.getHistData(startDay)
         dataLen = len(data)
         succee = 0
         defeated = 0
