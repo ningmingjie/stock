@@ -19,7 +19,8 @@ class History:
         self.secCode = secCode
         self.secName = secName
         self.secID = secID
-        self._date = time.strftime('%Y-%m-%d', time.localtime(time.time()))
+        #self._date = time.strftime('%Y-%m-%d', time.localtime(time.time()))
+        self._date = '2018-11-13'
 
     """
     获取历史行情数据

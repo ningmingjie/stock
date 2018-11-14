@@ -20,8 +20,8 @@ class Present:
         self.secCode = secCode
         self.secName = secName
         self.secID = secID
-        #self._date = time.strftime('%Y-%m-%d', time.localtime(time.time()))
-        self._date = '2018-11-13'
+        self._date = time.strftime('%Y-%m-%d', time.localtime(time.time()))
+        #self._date = '2018-11-13'
         self._lastCalDate = StockUD.getLastSecCalDate(secCode, self._date)
 
     """
