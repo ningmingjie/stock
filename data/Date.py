@@ -13,8 +13,8 @@ class Date:
         self._path = "/data/share/loudou/stock/"
 
     @staticmethod
-    def getDateAmend(date):
-        return time.strftime('%Y-%m-%d', time.strptime(date, "%Y%m%d"))
+    def getDateAmend(date, expectFormat = '%Y-%m-%d',format = '%Y%m%d'):
+        return time.strftime(expectFormat, time.strptime(date, format))
 
     @staticmethod
     def getDate(date):

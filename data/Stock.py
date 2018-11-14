@@ -147,6 +147,17 @@ class Stock:
         dict = data[data.is_open==1].to_dict('records')
         return  dict[len(dict)-1]['cal_date']
 
+    """
+    获取交易日天数
+    """
+    @staticmethod
+    def getCalSum(_date, _endDate):
+        pro = ts.pro_api()
+        data = pro.query('trade_cal', start_date=Date.getDateAmend(_date, '%Y%m%d', '%Y-%m-%d'), end_date=Date.getDiffDate(_endDate, '%Y%m%d', '%Y-%m-%d'))
+        data.reset_index(inplace=True)
+        dict = data[data.is_open==1].to_dict('records')
+        print len(dict)
+
     @staticmethod
     def getStockInfo(secID):
         sql = """SELECT sec_id, sec_code, sec_name FROM stock_info WHERE sec_id = '%s'""" % (secID)

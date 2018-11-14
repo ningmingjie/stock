@@ -17,10 +17,7 @@ sys.setdefaultencoding('utf-8')
 
 class Renewal:
 
-    def __init__(self, secCode, secName, secID):
-        self.secCode = secCode
-        self.secName = secName
-        self.secID = secID
+    def __init__(self):
         self._date = time.strftime('%Y%m%d', time.localtime(time.time()))
         #self._date = '20181031'
 
@@ -91,15 +88,9 @@ class Stock:
             lines = [line.strip() for line in f.readlines()]
         return lines
 
-#
-# stock = Stock()
-#sk = stock.getStockAll()
-sk = ["601518-吉林高速-601518.SH"]
-for tk in sk:
-    try:
-        sec = re.split("-", tk)
-        renewal = Renewal(sec[0], sec[1], sec[2])
-        res = renewal.handel()
-        print sec[2]
-    except Exception, data:
-        print data
+
+try:
+    renewal = Renewal()
+    res = renewal.handel()
+except Exception, data:
+    print data
