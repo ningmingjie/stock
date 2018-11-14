@@ -20,8 +20,8 @@ class Present:
         self.secCode = secCode
         self.secName = secName
         self.secID = secID
-        self._date = time.strftime('%Y-%m-%d', time.localtime(time.time()))
-        #self._date = '2018-10-30'
+        #self._date = time.strftime('%Y-%m-%d', time.localtime(time.time()))
+        self._date = '2018-11-13'
         self._lastCalDate = StockUD.getLastSecCalDate(secCode, self._date)
 
     """
@@ -32,8 +32,8 @@ class Present:
     def getHistData(self):
         #获取上个交易日期
         data = ts.get_hist_data(self.secCode, self._lastCalDate, self._date)
-        print data
-        exit()
+        if data == None:
+            return False
         data.reset_index(inplace=True)
         #索引重新命名
         data.rename(
@@ -49,12 +49,15 @@ class Present:
     endDay ：结束时间
     """
     def handel(self):
-        if StockUD.getIsStopCalDate(self._date) == True:
+        if StockUD.getIsStopCalDate(self.secCode) == True:
             return False
         if StockUD.getIsCalDate(self._date) == False:
             return False
 
         data = self.getHistData()
+
+        if data == False:
+            return False
 
         dataLen = len(data)
         for i in range(dataLen-1, 0, -1):
@@ -103,9 +106,9 @@ class Stock:
             lines = [line.strip() for line in f.readlines()]
         return lines
 
-#stock = Stock()
-#sk = stock.getStockAll()
-sk = ["601636-旗滨集团-601636.SH"]
+stock = Stock()
+sk = stock.getStockAll()
+#sk = ["601636-旗滨集团-601636.SH"]
 for tk in sk:
     try:
         sec = re.split("-", tk)

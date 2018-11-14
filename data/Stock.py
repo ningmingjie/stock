@@ -158,11 +158,11 @@ class Stock:
     """
     @staticmethod
     def getIsStopCalDate(secCode):
-        sql = """SELECT * FROM suspend WHERE sec_code = '%s' AND resum_date == '1970-01-01' LIMIT 1""" % (secCode)
+        sql = """SELECT * FROM suspend WHERE sec_code = '%s' AND (resum_date = '1970-01-01' OR resum_date = '%s') LIMIT 1""" % (secCode, Date.getDateAmend(Stock._endDate))
         query = stock_db.fetch_one(sql)
         if query == None:
-            return True
-        return False
+            return False
+        return True
 
     """
     获取当天是否是交易日
