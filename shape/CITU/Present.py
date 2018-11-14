@@ -32,8 +32,6 @@ class Present:
     def getHistData(self):
         #获取上个交易日期
         data = ts.get_hist_data(self.secCode, self._lastCalDate, self._date)
-        if data == None:
-            return False
         data.reset_index(inplace=True)
         #索引重新命名
         data.rename(
@@ -51,16 +49,13 @@ class Present:
     def handel(self):
         if StockUD.getIsStopCalDate(self.secCode) == True:
             return False
-        print 1
         if StockUD.getIsCalDate(self._date) == False:
             return False
-        print 2
         data = self.getHistData()
 
         if data == False:
             return False
-        print 3
-        exit()
+
         dataLen = len(data)
         for i in range(dataLen-1, 0, -1):
             if data[i]['close'] > data[i]['open']:
